@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reproduce: MAG3D v6.0 &#8212; SimPEG Package Code Validations</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="TMI Inversion: Block in Halfspace (Smooth)" href="../block_halfspace_tmi_inv_smooth/code_comparison.html" />
+    <link rel="prev" title="Reproduce: SimPEG" href="reproduce_simpeg.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../../_static/simpeg-logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">SimPEG Package Code Validations</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../index.html">
+   SimPEG Code Validations Book
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../gravity_index.html">
+   Gravity
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/code_comparison.html">
+     Gravity Simulation: Block in Halfspace
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_ubc_grav3d.html">
+       Reproduce: GRAV3D v6.0.1
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/code_comparison.html">
+     Gradiometry Simulation: Block in Halfspace
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_ubc_gg3d.html">
+       Reproduce: GG3D v6.0.1
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/code_comparison.html">
+     Gravity Inversion: Block in Halfspace (Smooth)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <label for="toctree-checkbox-4">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_ubc_grav3d.html">
+       Reproduce: GRAV3D v6.0.1
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/code_comparison.html">
+     Gravity Inversion: Block in Halfspace (Sparse)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+    <label for="toctree-checkbox-5">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_ubc_grav3d.html">
+       Reproduce: GRAV3D v6.0.1
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../../magnetics_index.html">
+   Magnetics
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="code_comparison.html">
+     TMI Simulation: Block in Halfspace
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+    <label for="toctree-checkbox-7">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Reproduce: MAG3D v6.0
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../block_halfspace_tmi_inv_smooth/code_comparison.html">
+     TMI Inversion: Block in Halfspace (Smooth)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+    <label for="toctree-checkbox-8">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../block_halfspace_tmi_inv_smooth/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../block_halfspace_tmi_inv_smooth/reproduce_ubc_mag3d.html">
+       Reproduce: MAG3D v6.0
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../block_halfspace_tmi_inv_sparse/code_comparison.html">
+     TMI Inversion: Block in Halfspace (Sparse)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+    <label for="toctree-checkbox-9">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../block_halfspace_tmi_inv_sparse/reproduce_simpeg.html">
+       Reproduce: SimPEG
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../block_halfspace_tmi_inv_sparse/reproduce_ubc_mag3d.html">
+       Reproduce: MAG3D v6.0.1
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../dcip_index.html">
+   DC / IP
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dcip/block_model_dc_fwd/code_comparison.html">
+     DC Simulation: Blocks Model
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+    <label for="toctree-checkbox-11">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_dc_fwd/reproduce_simpeg.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_dc_fwd/reproduce_ubc_dcipoctree.html">
+       Reproduce: DCIP OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dcip/block_model_ip_fwd/code_comparison.html">
+     IP Simulation: Blocks Model
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+    <label for="toctree-checkbox-12">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_ip_fwd/reproduce_simpeg.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_ip_fwd/reproduce_ubc_dcipoctree.html">
+       Reproduce: DCIP OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dcip/block_model_dc_inv_L2/code_comparison.html">
+     DC Inversion: Blocks Model (L2)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
+    <label for="toctree-checkbox-13">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_dc_inv_L2/reproduce_simpeg.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_dc_inv_L2/reproduce_ubc_dcipoctree.html">
+       Reproduce: UBC DCIP OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../dcip/block_model_ip_inv_L2/code_comparison.html">
+     IP Inversion: Blocks Model (L2)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
+    <label for="toctree-checkbox-14">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_ip_inv_L2/reproduce_simpeg.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../dcip/block_model_ip_inv_L2/reproduce_ubc_dcipoctree.html">
+       Reproduce: UBC DCIP OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../fdem_index.html">
+   Frequency-Domain Electromagnetics
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
+  <label for="toctree-checkbox-15">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/code_comparison.html">
+     Inductive Source Simulation: 1D Layered Earth (Conductive)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
+    <label for="toctree-checkbox-16">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">
+       Reproduce: SimPEG 1D
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_ubc_e3drh.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/code_comparison.html">
+     Inductive Source Simulation: 1D Layered Earth (Susceptible)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
+    <label for="toctree-checkbox-17">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">
+       Reproduce: SimPEG 1D
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_ubc_e3drh.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/code_comparison.html">
+     Inductive Source Simulation: Conductive Sphere in Vacuum
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
+    <label for="toctree-checkbox-18">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">
+       Reproduce: Analytic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_ubc_e3drh.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/code_comparison.html">
+     Inductive Source Simulation: Conductive Sphere in Vacuum
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
+    <label for="toctree-checkbox-19">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">
+       Reproduce: Analytic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_e3drh.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../../tdem_index.html">
+   Time-Domain Electromagnetics
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/>
+  <label for="toctree-checkbox-20">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/code_comparison.html">
+     Inductive Source Simulation: Layered Earth (Conductive)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/>
+    <label for="toctree-checkbox-21">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">
+       Reproduce: SimPEG 1D
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_ubc_tdoctree.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/code_comparison.html">
+     Inductive Source Simulation: Layered Earth (Susceptible)
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/>
+    <label for="toctree-checkbox-22">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">
+       Reproduce: SimPEG 1D
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_ubc_tdoctree.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/code_comparison.html">
+     Inductive Source Simulation: Conductive Sphere
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/>
+    <label for="toctree-checkbox-23">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">
+       Reproduce: Analytic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_ubc_tdoctree.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/code_comparison.html">
+     Inductive Source Simulation: Conductive and Susceptible Sphere
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/>
+    <label for="toctree-checkbox-24">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">
+       Reproduce: Analytic
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">
+       Reproduce: SimPEG OcTree
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_tdoctree.html">
+       Reproduce: UBC-GIF OcTree
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../nsem_index.html">
+   Natural Source Electromagnetics
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/notebooks/magnetics/block_halfspace_tmi_fwd/reproduce_ubc_mag3d.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=lab/tree/notebooks/magnetics/block_halfspace_tmi_fwd/reproduce_ubc_mag3d.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../../../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulating-tmi-data-over-a-susceptible-block-in-a-halfspace">
+   Simulating TMI Data Over a Susceptible Block in a Halfspace
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ubc-gif-mag3d-v6-0-package-details">
+   UBC-GIF MAG3D v6.0 Package Details
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-the-forward-simulation">
+   Running the Forward Simulation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-acquiring-a-commercial-or-academic-license">
+     Step 1: Acquiring a commercial or academic license.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2-downloading-and-extracting-assets">
+     Step 2: Downloading and extracting assets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-3-running-the-forward-modeling-executable">
+     Step 3: Running the forward modeling executable
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="reproduce-mag3d-v6-0">
+<h1>Reproduce: MAG3D v6.0<a class="headerlink" href="#reproduce-mag3d-v6-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simulating-tmi-data-over-a-susceptible-block-in-a-halfspace">
+<h2>Simulating TMI Data Over a Susceptible Block in a Halfspace<a class="headerlink" href="#simulating-tmi-data-over-a-susceptible-block-in-a-halfspace" title="Permalink to this headline">¶</a></h2>
+<p>Total magnetic intensity (TMI) data are simulated over susceptible block using SimPEG. The background susceptibility is 0.0001 SI and the susceptibility of the block is 0.025 SI. The dimensions of the block in the x, y and z directions are all 200 m. The block is buried at a depth of 200 m.</p>
+<p>TMI data are simulated on a regular grid of points for an airborne survey. The receiver height is set to be 30 m above the surface. The station spacing is 50 m in both the X and Y directions.</p>
+</div>
+<div class="section" id="ubc-gif-mag3d-v6-0-package-details">
+<h2>UBC-GIF MAG3D v6.0 Package Details<a class="headerlink" href="#ubc-gif-mag3d-v6-0-package-details" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://mag3d.readthedocs.io/en/v6/">MAG3D v6.0</a> is a voxel cell magnetic forward modeling and inversion package developed by the UBC Geophysical Inversion Facility. This software is proprietary and can ONLY be acquired through appropriate <a class="reference external" href="https://gif.eos.ubc.ca/software/licenses_academic">academic</a> or <a class="reference external" href="https://gif.eos.ubc.ca/software/licenses_commercial">commerical</a> licenses. The numerical approach of the forward simulation is described in the <a class="reference external" href="https://mag3d.readthedocs.io/en/v6/content/theory.html">online manual’s theory section</a>. If you have a valid license, there are instructions for reproducing the results (add link).</p>
+</div>
+<div class="section" id="running-the-forward-simulation">
+<h2>Running the Forward Simulation<a class="headerlink" href="#running-the-forward-simulation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="step-1-acquiring-a-commercial-or-academic-license">
+<h3>Step 1: Acquiring a commercial or academic license.<a class="headerlink" href="#step-1-acquiring-a-commercial-or-academic-license" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Explain and link to where you would get licenses. Make ABSOLUTELY CLEAR we don’t just give out the licenses willy-nilly.</p></li>
+</ul>
+</div>
+<div class="section" id="step-2-downloading-and-extracting-assets">
+<h3>Step 2: Downloading and extracting assets<a class="headerlink" href="#step-2-downloading-and-extracting-assets" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Link and instructions for download</p></li>
+</ul>
+</div>
+<div class="section" id="step-3-running-the-forward-modeling-executable">
+<h3>Step 3: Running the forward modeling executable<a class="headerlink" href="#step-3-running-the-forward-modeling-executable" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Brief description of what files are needed</p></li>
+<li><p>Link to the manual page where we run the forward simulation</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks\magnetics\block_halfspace_tmi_fwd"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="reproduce_simpeg.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Reproduce: SimPEG</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="../block_halfspace_tmi_inv_smooth/code_comparison.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">TMI Inversion: Block in Halfspace (Smooth)</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By SimPEG<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

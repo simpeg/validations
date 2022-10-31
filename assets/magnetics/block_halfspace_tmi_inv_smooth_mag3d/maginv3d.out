@@ -1,0 +1,19 @@
+
+! MAGINV3D started on:  8/28/2021  13:44:55
+
+!    1  1.0000   !! mode, chifact
+!   0.0000E+00   !! initial norm S
+!   4.1290E-06   !! initial norm E
+!   4.0899E-06   !! initial norm N
+!   7.7366E-05   !! initial norm Z
+!   8.5585E-05   !! initial norm total
+!   4.0740E+04   !! initial misfit
+!   4.4100E+02   !! target data misfit
+!  1.000E-08  1.00      1.00      1.00       !! alpha values
+
+! iter          beta   data misfit        norm S        norm E        norm N        norm Z    model norm  total objective  CG iterations  truncated cells
+     1  1.185996E+06  8.251795E+02  8.958828E-08  2.918828E-04  3.100343E-04  4.681718E-05  6.488240E-04    1.594682E+03            43         75592
+     2  5.929979E+05  3.627801E+02  1.037905E-07  3.632452E-04  3.808549E-04  6.967604E-05  8.138799E-04    8.454091E+02            56         58707
+
+! MAGINV3D ended on:  8/28/2021  13:48:02
+

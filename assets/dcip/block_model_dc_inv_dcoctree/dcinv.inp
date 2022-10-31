@@ -1,0 +1,17 @@
+octree_mesh.txt         ! octree mesh
+LOC_XYZ dc_data.dobs    ! observed data
+VALUE 0.01              ! starting model
+VALUE 0.01              ! reference model
+ALL_ACTIVE              ! topo active cells
+ALL_ACTIVE              ! model active cells
+dcweights.txt           ! cell weights
+NO_FACE_WEIGHT          ! interface weights
+NO_WEIGHT               ! independent smallness weights
+0.1 1e-5 0.5            ! beta_0 beta_min reduction_factor             
+0.00016 1 1 1           ! alpha_s alpha_x alpha_y alpha_z
+1                       ! chi factor
+0.01 0.001 3            ! tol_nl mindm iter_per_beta
+0.01 30                 ! tol_ipcg max_iter_ipcg
+NOT_CHANGE_MREF         ! CHANGE_MREF | NOT_CHANGE_MREF
+SMOOTH_MOD_DIF          ! SMOOTH_MOD | SMOOTH_MOD_DIF
+BOUNDS_NONE             ! Bounds

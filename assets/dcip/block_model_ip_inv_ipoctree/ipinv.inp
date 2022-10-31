@@ -1,0 +1,18 @@
+octree_mesh.txt         ! octree mesh
+LOC_XYZ ip_data.dobs    ! observed data
+VALUE 1e-4              ! starting model
+VALUE 0                 ! reference model
+background_model.con    ! background conductivity model
+ALL_ACTIVE              ! topo active cells
+ALL_ACTIVE              ! model active cells
+ipweights.txt           ! cell weights
+NO_FACE_WEIGHT          ! interface weights
+NO_WEIGHT               ! independent smallness weights
+10 1e-5 0.5             ! beta_0 beta_min reduction_factor             
+0.00016 1 1 1           ! alpha_s alpha_x alpha_y alpha_z
+1                       ! chi factor
+0.01 0.001 3            ! tol_nl mindm iter_per_beta
+0.001 30                ! tol_ipcg max_iter_ipcg
+NOT_CHANGE_MREF         ! CHANGE_MREF | NOT_CHANGE_MREF
+SMOOTH_MOD_DIF          ! SMOOTH_MOD | SMOOTH_MOD_DIF
+BOUNDS_CONST 0 100      ! Bounds

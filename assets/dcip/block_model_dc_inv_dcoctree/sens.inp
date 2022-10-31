@@ -1,0 +1,6 @@
+octree_mesh.txt              ! octree mesh
+LOC_XYZ dc_data.dobs         ! observed data
+VALUE 0.01                   ! background conducitivity model
+ALL_ACTIVE                   ! topo active cells
+10                           ! nSamples
+5                            ! method

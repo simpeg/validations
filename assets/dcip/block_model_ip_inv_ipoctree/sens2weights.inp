@@ -1,0 +1,6 @@
+octree_mesh.txt              ! octree mesh
+sensitivities.txt            ! approximate sensitivities model
+ALL_ACTIVE                   ! topo active cells
+0.005                        ! weights truncation factor
+1                            ! smoothing factor
+ipweights.txt                ! output filename

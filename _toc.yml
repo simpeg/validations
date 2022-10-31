@@ -1,0 +1,110 @@
+root: index
+format: jb-book
+
+chapters:
+# GRAVITY
+- file: notebooks/gravity_index
+  sections:
+  - file: notebooks/gravity/block_halfspace_gravity_fwd/code_comparison
+    sections:
+    - file: notebooks/gravity/block_halfspace_gravity_fwd/reproduce_simpeg
+    - file: notebooks/gravity/block_halfspace_gravity_fwd/reproduce_ubc_grav3d
+  - file: notebooks/gravity/block_halfspace_gradiometry_fwd/code_comparison
+    sections:
+    - file: notebooks/gravity/block_halfspace_gradiometry_fwd/reproduce_simpeg
+    - file: notebooks/gravity/block_halfspace_gradiometry_fwd/reproduce_ubc_gg3d
+  - file: notebooks/gravity/block_halfspace_gravity_inv_smooth/code_comparison
+    sections:
+    - file: notebooks/gravity/block_halfspace_gravity_inv_smooth/reproduce_simpeg
+    - file: notebooks/gravity/block_halfspace_gravity_inv_smooth/reproduce_ubc_grav3d
+  - file: notebooks/gravity/block_halfspace_gravity_inv_sparse/code_comparison
+    sections:
+    - file: notebooks/gravity/block_halfspace_gravity_inv_sparse/reproduce_simpeg
+    - file: notebooks/gravity/block_halfspace_gravity_inv_sparse/reproduce_ubc_grav3d
+
+# MAGNETICS
+- file: notebooks/magnetics_index
+  sections:
+  - file: notebooks/magnetics/block_halfspace_tmi_fwd/code_comparison
+    sections:
+    - file: notebooks/magnetics/block_halfspace_tmi_fwd/reproduce_simpeg
+    - file: notebooks/magnetics/block_halfspace_tmi_fwd/reproduce_ubc_mag3d
+  - file: notebooks/magnetics/block_halfspace_tmi_inv_smooth/code_comparison
+    sections:
+    - file: notebooks/magnetics/block_halfspace_tmi_inv_smooth/reproduce_simpeg
+    - file: notebooks/magnetics/block_halfspace_tmi_inv_smooth/reproduce_ubc_mag3d
+  - file: notebooks/magnetics/block_halfspace_tmi_inv_sparse/code_comparison
+    sections:
+    - file: notebooks/magnetics/block_halfspace_tmi_inv_sparse/reproduce_simpeg
+    - file: notebooks/magnetics/block_halfspace_tmi_inv_sparse/reproduce_ubc_mag3d
+
+# DC/IP
+- file: notebooks/dcip_index
+  sections:
+  - file: notebooks/dcip/block_model_dc_fwd/code_comparison
+    sections:
+    - file: notebooks/dcip/block_model_dc_fwd/reproduce_simpeg
+    - file: notebooks/dcip/block_model_dc_fwd/reproduce_ubc_dcipoctree
+  - file: notebooks/dcip/block_model_ip_fwd/code_comparison
+    sections:
+    - file: notebooks/dcip/block_model_ip_fwd/reproduce_simpeg
+    - file: notebooks/dcip/block_model_ip_fwd/reproduce_ubc_dcipoctree
+  - file: notebooks/dcip/block_model_dc_inv_L2/code_comparison
+    sections:
+    - file: notebooks/dcip/block_model_dc_inv_L2/reproduce_simpeg
+    - file: notebooks/dcip/block_model_dc_inv_L2/reproduce_ubc_dcipoctree
+  - file: notebooks/dcip/block_model_ip_inv_L2/code_comparison
+    sections:
+    - file: notebooks/dcip/block_model_ip_inv_L2/reproduce_simpeg
+    - file: notebooks/dcip/block_model_ip_inv_L2/reproduce_ubc_dcipoctree
+
+# FDEM
+- file: notebooks/fdem_index
+  sections:
+  - file: notebooks/fdem/layered_earth_conductive_fwd/code_comparison
+    sections:
+    - file: notebooks/fdem/layered_earth_conductive_fwd/reproduce_simpeg_1d
+    - file: notebooks/fdem/layered_earth_conductive_fwd/reproduce_simpeg_octree
+    - file: notebooks/fdem/layered_earth_conductive_fwd/reproduce_ubc_e3drh
+  - file: notebooks/fdem/layered_earth_susceptible_fwd/code_comparison
+    sections:
+    - file: notebooks/fdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d
+    - file: notebooks/fdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree
+    - file: notebooks/fdem/layered_earth_susceptible_fwd/reproduce_ubc_e3drh
+  - file: notebooks/fdem/sphere_vacuum_conductive_fwd/code_comparison
+    sections:
+    - file: notebooks/fdem/sphere_vacuum_conductive_fwd/reproduce_analytic
+    - file: notebooks/fdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree
+    - file: notebooks/fdem/sphere_vacuum_conductive_fwd/reproduce_ubc_e3drh
+  - file: notebooks/fdem/sphere_vacuum_susceptible_fwd/code_comparison
+    sections:
+    - file: notebooks/fdem/sphere_vacuum_susceptible_fwd/reproduce_analytic
+    - file: notebooks/fdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree
+    - file: notebooks/fdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_e3drh
+
+# TDEM
+- file: notebooks/tdem_index
+  sections:
+  - file: notebooks/tdem/layered_earth_conductive_fwd/code_comparison
+    sections:
+    - file: notebooks/tdem/layered_earth_conductive_fwd/reproduce_simpeg_1d
+    - file: notebooks/tdem/layered_earth_conductive_fwd/reproduce_simpeg_octree
+    - file: notebooks/tdem/layered_earth_conductive_fwd/reproduce_ubc_tdoctree
+  - file: notebooks/tdem/layered_earth_susceptible_fwd/code_comparison
+    sections:
+    - file: notebooks/tdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d
+    - file: notebooks/tdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree
+    - file: notebooks/tdem/layered_earth_susceptible_fwd/reproduce_ubc_tdoctree
+  - file: notebooks/tdem/sphere_vacuum_conductive_fwd/code_comparison
+    sections:
+    - file: notebooks/tdem/sphere_vacuum_conductive_fwd/reproduce_analytic
+    - file: notebooks/tdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree
+    - file: notebooks/tdem/sphere_vacuum_conductive_fwd/reproduce_ubc_tdoctree
+  - file: notebooks/tdem/sphere_vacuum_susceptible_fwd/code_comparison
+    sections:
+    - file: notebooks/tdem/sphere_vacuum_susceptible_fwd/reproduce_analytic
+    - file: notebooks/tdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree
+    - file: notebooks/tdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_tdoctree
+
+# NSEM
+- file: notebooks/nsem_index

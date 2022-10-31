@@ -1,0 +1,6 @@
+IPL                         ! data type: DC|IP|IPL
+octree_mesh.txt             ! octree mesh
+LOC_XYZ survey.loc          ! LOC_XY|LOC_XYZ filename
+true_model.con              ! conductivity model
+true_model.chg              ! chargeability model
+ALL_ACTIVE                  ! ALL_ACTIVE | active cells model
