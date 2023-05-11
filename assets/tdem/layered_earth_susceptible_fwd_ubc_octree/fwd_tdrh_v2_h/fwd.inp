@@ -1,0 +1,27 @@
+../octree_model/octree_mesh.txt          ! octree mesh file
+../octree_model/octree_mesh.txt          ! octree mesh file
+../index_h.loc                           ! survey index file
+../transmitters.txt                      ! transmitters file
+../receivers.txt                         ! receivers file
+../times.txt                             ! times file
+../waveform_v2.txt                       ! waveform.txt
+FWDMODEL ../octree_model/model.con       ! FWDMODEL model | initial model
+VALUE 0.0001                             ! reference model | VALUE d
+../octree_model/model.sus                ! susceptibility model
+ALL_ACTIVE                               ! active cell file for topography | ALL_ACTIVE
+ALL_ACTIVE                               ! model active cell file | ALL_ACTIVE
+NO_WEIGHT                                ! cell weight file | NO_WEIGHT
+NO_FACE_WEIGHT                           ! interface weighting file | NO_FACE_WEIGHT
+DEFAULT                                  ! DEFAULT ! beta_max  beta_min  beta_factor
+4.e-4  5.  5.  1.                        ! alpha_s  alpha_x  alpha_y  alpha_z
+1.                                       ! chifact
+2 10                                     ! iter_per_beta  nbetas
+1e-3  20                                 ! tol_ipcg  max_iter_ipcg
+CHANGE_MREF                              ! CHANGE_MREF | NOT_CHANGE_MREF
+SMOOTH_MOD                               ! SMOOTH_MOD | SMOOTH_MOD_DIF
+BOUNDS_NONE                              ! BOUNDS_CONST 1.e-10  1.e+10 ! BOUNDS_NONE
+1e4                                      ! Huber constant
+TOTAL_FIELD                              ! TOTAL_FIELD | SECONDARY_ANALYTIC val | SECONDARY_NUMERIC val
+FACTOR_IC                                ! FACTOR_IC | FACTOR_OOC directory name
+USE_DIRECT_PARDISO                       ! USE_DIRECT_PARDISO | USE_ITER tol_bicg tol_ipcg_bicg max_it_bicg
+NOT_USE_SENS_WEIGHT                      ! NOT_USE_SENS_WEIGHT | USE_SENS_WEIGHT nsamples maxSens
