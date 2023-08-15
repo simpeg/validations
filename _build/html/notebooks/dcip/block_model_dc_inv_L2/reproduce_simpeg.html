@@ -1,765 +1,467 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Reproduce: SimPEG OcTree &#8212; SimPEG Package Code Validations</title>
-    
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    
-      
-
-    
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
-    
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/togglebutton.js"></script>
     <script src="../../../_static/clipboard.min.js"></script>
     <script src="../../../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/dcip/block_model_dc_inv_L2/reproduce_simpeg';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <link rel="next" title="Reproduce: UBC DCIP OcTree" href="reproduce_ubc_dcipoctree.html" />
     <link rel="prev" title="DC Inversion: Blocks Model (L2)" href="code_comparison.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../../_static/simpeg-logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">SimPEG Package Code Validations</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../../../index.html">
-   SimPEG Code Validations Book
-  </a>
- </li>
+    
+    
+    <img src="../../../_static/simpeg-logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/simpeg-logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    SimPEG Code Validations Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../gravity_index.html">Gravity</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/code_comparison.html">Gravity Simulation: Block in Halfspace</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_ubc_grav3d.html">Reproduce: GRAV3D v6.0.1</a></li>
 </ul>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../gravity_index.html">
-   Gravity
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
-  <label for="toctree-checkbox-1">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/code_comparison.html">
-     Gravity Simulation: Block in Halfspace
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
-    <label for="toctree-checkbox-2">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_fwd/reproduce_ubc_grav3d.html">
-       Reproduce: GRAV3D v6.0.1
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/code_comparison.html">
-     Gradiometry Simulation: Block in Halfspace
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
-    <label for="toctree-checkbox-3">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_ubc_gg3d.html">
-       Reproduce: GG3D v6.0.1
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/code_comparison.html">
-     Gravity Inversion: Block in Halfspace (Smooth)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
-    <label for="toctree-checkbox-4">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_ubc_grav3d.html">
-       Reproduce: GRAV3D v6.0.1
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/code_comparison.html">
-     Gravity Inversion: Block in Halfspace (Sparse)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-    <label for="toctree-checkbox-5">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_ubc_grav3d.html">
-       Reproduce: GRAV3D v6.0.1
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../magnetics_index.html">
-   Magnetics
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-  <label for="toctree-checkbox-6">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/code_comparison.html">
-     TMI Simulation: Block in Halfspace
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-    <label for="toctree-checkbox-7">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/reproduce_ubc_mag3d.html">
-       Reproduce: MAG3D v6.0
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/code_comparison.html">
-     TMI Inversion: Block in Halfspace (Smooth)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-    <label for="toctree-checkbox-8">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/reproduce_ubc_mag3d.html">
-       Reproduce: MAG3D v6.0
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/code_comparison.html">
-     TMI Inversion: Block in Halfspace (Sparse)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
-    <label for="toctree-checkbox-9">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/reproduce_simpeg.html">
-       Reproduce: SimPEG
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/reproduce_ubc_mag3d.html">
-       Reproduce: MAG3D v6.0.1
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 current active has-children">
-  <a class="reference internal" href="../../dcip_index.html">
-   DC / IP
-  </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
-  <label for="toctree-checkbox-10">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul class="current">
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../block_model_dc_fwd/code_comparison.html">
-     DC Simulation: Blocks Model
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
-    <label for="toctree-checkbox-11">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_dc_fwd/reproduce_simpeg.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_dc_fwd/reproduce_ubc_dcipoctree.html">
-       Reproduce: DCIP OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../block_model_ip_fwd/code_comparison.html">
-     IP Simulation: Blocks Model
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
-    <label for="toctree-checkbox-12">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_ip_fwd/reproduce_simpeg.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_ip_fwd/reproduce_ubc_dcipoctree.html">
-       Reproduce: DCIP OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 current active has-children">
-    <a class="reference internal" href="code_comparison.html">
-     DC Inversion: Blocks Model (L2)
-    </a>
-    <input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/>
-    <label for="toctree-checkbox-13">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul class="current">
-     <li class="toctree-l3 current active">
-      <a class="current reference internal" href="#">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="reproduce_ubc_dcipoctree.html">
-       Reproduce: UBC DCIP OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../block_model_ip_inv_L2/code_comparison.html">
-     IP Inversion: Blocks Model (L2)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/>
-    <label for="toctree-checkbox-14">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_ip_inv_L2/reproduce_simpeg.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../block_model_ip_inv_L2/reproduce_ubc_dcipoctree.html">
-       Reproduce: UBC DCIP OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../fdem_index.html">
-   Frequency-Domain Electromagnetics
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/>
-  <label for="toctree-checkbox-15">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/code_comparison.html">
-     Inductive Source Simulation: 1D Layered Earth (Conductive)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/>
-    <label for="toctree-checkbox-16">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">
-       Reproduce: SimPEG 1D
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_ubc_e3drh.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/code_comparison.html">
-     Inductive Source Simulation: 1D Layered Earth (Susceptible)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/>
-    <label for="toctree-checkbox-17">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">
-       Reproduce: SimPEG 1D
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_ubc_e3drh.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/code_comparison.html">
-     Inductive Source Simulation: Conductive Sphere in Vacuum
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/>
-    <label for="toctree-checkbox-18">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">
-       Reproduce: Analytic
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_ubc_e3drh.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/code_comparison.html">
-     Inductive Source Simulation: Conductive Sphere in Vacuum
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/>
-    <label for="toctree-checkbox-19">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">
-       Reproduce: Analytic
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_e3drh.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1 has-children">
-  <a class="reference internal" href="../../tdem_index.html">
-   Time-Domain Electromagnetics
-  </a>
-  <input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/>
-  <label for="toctree-checkbox-20">
-   <i class="fas fa-chevron-down">
-   </i>
-  </label>
-  <ul>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/code_comparison.html">
-     Inductive Source Simulation: Layered Earth (Conductive)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/>
-    <label for="toctree-checkbox-21">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">
-       Reproduce: SimPEG 1D
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_ubc_tdoctree.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/code_comparison.html">
-     Inductive Source Simulation: Layered Earth (Susceptible)
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/>
-    <label for="toctree-checkbox-22">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">
-       Reproduce: SimPEG 1D
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_ubc_tdoctree.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/code_comparison.html">
-     Inductive Source Simulation: Conductive Sphere
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/>
-    <label for="toctree-checkbox-23">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">
-       Reproduce: Analytic
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_ubc_tdoctree.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toctree-l2 has-children">
-    <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/code_comparison.html">
-     Inductive Source Simulation: Conductive and Susceptible Sphere
-    </a>
-    <input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/>
-    <label for="toctree-checkbox-24">
-     <i class="fas fa-chevron-down">
-     </i>
-    </label>
-    <ul>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">
-       Reproduce: Analytic
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">
-       Reproduce: SimPEG OcTree
-      </a>
-     </li>
-     <li class="toctree-l3">
-      <a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_tdoctree.html">
-       Reproduce: UBC-GIF OcTree
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../../nsem_index.html">
-   Natural Source Electromagnetics
-  </a>
- </li>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/code_comparison.html">Gradiometry Simulation: Block in Halfspace</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gradiometry_fwd/reproduce_ubc_gg3d.html">Reproduce: GG3D v6.0.1</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/code_comparison.html">Gravity Inversion: Block in Halfspace (Smooth)</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_smooth/reproduce_ubc_grav3d.html">Reproduce: GRAV3D v6.0.1</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/code_comparison.html">Gravity Inversion: Block in Halfspace (Sparse)</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../gravity/block_halfspace_gravity_inv_sparse/reproduce_ubc_grav3d.html">Reproduce: GRAV3D v6.0.1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../magnetics_index.html">Magnetics</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/code_comparison.html">TMI Simulation: Block in Halfspace</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_fwd/reproduce_ubc_mag3d.html">Reproduce: MAG3D v6.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/code_comparison.html">TMI Inversion: Block in Halfspace (Smooth)</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_smooth/reproduce_ubc_mag3d.html">Reproduce: MAG3D v6.0</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/code_comparison.html">TMI Inversion: Block in Halfspace (Sparse)</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/reproduce_simpeg.html">Reproduce: SimPEG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../magnetics/block_halfspace_tmi_inv_sparse/reproduce_ubc_mag3d.html">Reproduce: MAG3D v6.0.1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../dcip_index.html">DC / IP</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../block_model_dc_fwd/code_comparison.html">DC Simulation: Blocks Model</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_dc_fwd/reproduce_simpeg.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_dc_fwd/reproduce_ubc_dcipoctree.html">Reproduce: DCIP OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../block_model_ip_fwd/code_comparison.html">IP Simulation: Blocks Model</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_ip_fwd/reproduce_simpeg.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_ip_fwd/reproduce_ubc_dcipoctree.html">Reproduce: DCIP OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="code_comparison.html">DC Inversion: Blocks Model (L2)</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reproduce_ubc_dcipoctree.html">Reproduce: UBC DCIP OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../block_model_ip_inv_L2/code_comparison.html">IP Inversion: Blocks Model (L2)</a><input class="toctree-checkbox" id="toctree-checkbox-14" name="toctree-checkbox-14" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-14"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_ip_inv_L2/reproduce_simpeg.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../block_model_ip_inv_L2/reproduce_ubc_dcipoctree.html">Reproduce: UBC DCIP OcTree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../fdem_index.html">Frequency-Domain Electromagnetics</a><input class="toctree-checkbox" id="toctree-checkbox-15" name="toctree-checkbox-15" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-15"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/code_comparison.html">Inductive Source Simulation: 1D Layered Earth (Conductive)</a><input class="toctree-checkbox" id="toctree-checkbox-16" name="toctree-checkbox-16" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-16"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">Reproduce: SimPEG 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_conductive_fwd/reproduce_ubc_e3drh.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/code_comparison.html">Inductive Source Simulation: 1D Layered Earth (Susceptible)</a><input class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">Reproduce: SimPEG 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/layered_earth_susceptible_fwd/reproduce_ubc_e3drh.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/code_comparison.html">Inductive Source Simulation: Conductive Sphere in Vacuum</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">Reproduce: Analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_conductive_fwd/reproduce_ubc_e3drh.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/code_comparison.html">Inductive Source Simulation: Conductive Sphere in Vacuum</a><input class="toctree-checkbox" id="toctree-checkbox-19" name="toctree-checkbox-19" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-19"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">Reproduce: Analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../fdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_e3drh.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../tdem_index.html">Time-Domain Electromagnetics</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/code_comparison.html">Inductive Source Simulation: Layered Earth (Conductive)</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_1d.html">Reproduce: SimPEG 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_conductive_fwd/reproduce_ubc_tdoctree.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/code_comparison.html">Inductive Source Simulation: Layered Earth (Susceptible)</a><input class="toctree-checkbox" id="toctree-checkbox-22" name="toctree-checkbox-22" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-22"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_1d.html">Reproduce: SimPEG 1D</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/layered_earth_susceptible_fwd/reproduce_ubc_tdoctree.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/code_comparison.html">Inductive Source Simulation: Conductive Sphere</a><input class="toctree-checkbox" id="toctree-checkbox-23" name="toctree-checkbox-23" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-23"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_analytic.html">Reproduce: Analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_conductive_fwd/reproduce_ubc_tdoctree.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/code_comparison.html">Inductive Source Simulation: Conductive and Susceptible Sphere</a><input class="toctree-checkbox" id="toctree-checkbox-24" name="toctree-checkbox-24" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-24"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_analytic.html">Reproduce: Analytic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_simpeg_octree.html">Reproduce: SimPEG OcTree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tdem/sphere_vacuum_susceptible_fwd/reproduce_ubc_tdoctree.html">Reproduce: UBC-GIF OcTree</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../nsem_index.html">Natural Source Electromagnetics</a></li>
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../../_sources/notebooks/dcip/block_model_dc_inv_L2/reproduce_simpeg.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+</nav></div>
     </div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
-            <!-- Source interaction buttons -->
 
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=lab/tree/notebooks/dcip/block_model_dc_inv_L2/reproduce_simpeg.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../../../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
+      </div>
+      
+      <main id="main-content" class="bd-main">
         
         
-        
-        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/notebooks/dcip/block_model_dc_inv_L2/reproduce_simpeg.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
-        </div>
 
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Reproduce: SimPEG OcTree</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div>
+                <h2> Contents </h2>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
+            <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block">
-   Inverting Pole-Dipole DC Resistivity Data over a Conductive and a Resistive Block
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#simpeg-package-details">
-   SimPEG Package Details
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-inversion">
-   Running the Inversion
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data-misfit-along-a-single-survey-line">
-   Data Misfit Along a Single Survey Line
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#comparing-true-and-recovered-models">
-   Comparing True and Recovered Models
-  </a>
- </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block">Inverting Pole-Dipole DC Resistivity Data over a Conductive and a Resistive Block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpeg-package-details">SimPEG Package Details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-inversion">Running the Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-misfit-along-a-single-survey-line">Data Misfit Along a Single Survey Line</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-true-and-recovered-models">Comparing True and Recovered Models</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
-              <div>
+
+              
                 
-  <div class="section" id="reproduce-simpeg-octree">
-<h1>Reproduce: SimPEG OcTree<a class="headerlink" href="#reproduce-simpeg-octree" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block">
-<h2>Inverting Pole-Dipole DC Resistivity Data over a Conductive and a Resistive Block<a class="headerlink" href="#inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block" title="Permalink to this headline">¶</a></h2>
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="reproduce-simpeg-octree">
+<h1>Reproduce: SimPEG OcTree<a class="headerlink" href="#reproduce-simpeg-octree" title="Permalink to this heading">#</a></h1>
+<section id="inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block">
+<h2>Inverting Pole-Dipole DC Resistivity Data over a Conductive and a Resistive Block<a class="headerlink" href="#inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block" title="Permalink to this heading">#</a></h2>
 <p>Here, we invert pole-dipole DC resistivity data collected over a conductive and a resistive block. We invert for a conductivity model using a least-squares inversion approach.</p>
 <p>For the true model, the background conductivity <span class="math notranslate nohighlight">\(\sigma_0\)</span> = 0.01 S/m. The conductor has a conductivity of <span class="math notranslate nohighlight">\(\sigma_c\)</span> = 0.1 S/m and the resistor has a conductivity of <span class="math notranslate nohighlight">\(\sigma_r\)</span> = 0.001 S/m. Both blocks are oriented along the Northing direction and have x, y and z dimensions of 400 m, 1600 m and 320 m. Both blocks are buried at a depth of 160 m.</p>
 <p>The data being inverted were generated using the SimPEG OcTree code. Synthetic DC voltage data were simulated with a pole-dipole configuration. The survey consisted of 9 West-East survey lines, each with a length of 2000 m. The line spacing was 250 m and the electrode spacing was 100 m. Gaussian noise with a standard deviation of 1e-6 V + 5% the absolute value were added to each datum. Uncertainties of 1e-6 V + 5% were assigned to the data for inversion.</p>
-</div>
-<div class="section" id="simpeg-package-details">
-<h2>SimPEG Package Details<a class="headerlink" href="#simpeg-package-details" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="simpeg-package-details">
+<h2>SimPEG Package Details<a class="headerlink" href="#simpeg-package-details" title="Permalink to this heading">#</a></h2>
 <p><strong>Link to the docstrings for the simulation class</strong> The docstrings will have a citation and show the integral equation.</p>
-</div>
-<div class="section" id="running-the-inversion">
-<h2>Running the Inversion<a class="headerlink" href="#running-the-inversion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="running-the-inversion">
+<h2>Running the Inversion<a class="headerlink" href="#running-the-inversion" title="Permalink to this heading">#</a></h2>
 <p>We begin by importing all necessary Python packages for running the notebook.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">SimPEG.electromagnetics.static</span> <span class="kn">import</span> <span class="n">resistivity</span> <span class="k">as</span> <span class="n">dc</span>
 <span class="kn">from</span> <span class="nn">SimPEG.electromagnetics.static.utils.static_utils</span> <span class="kn">import</span> <span class="p">(</span>
@@ -787,17 +489,29 @@
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>A compressed folder containing the assets required to run the notebook is then downloaded. This includes the mesh, true model, and observed data files.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the .tar file</span>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>Extracted files are then loaded into the SimPEG framework.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rootdir</span> <span class="o">=</span> <span class="s1">&#39;./../../../assets/dcip/block_model_dc_inv_simpeg_octree/&#39;</span>
 <span class="n">meshfile</span> <span class="o">=</span> <span class="n">rootdir</span> <span class="o">+</span> <span class="s1">&#39;octree_mesh.txt&#39;</span>
@@ -810,9 +524,15 @@
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>The observed data are measured voltages. And it is voltage data that are inverted. However, here we plot the observed data as apparent conductivities.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survey</span> <span class="o">=</span> <span class="n">dc_data</span><span class="o">.</span><span class="n">survey</span>
 <span class="n">apparent_conductivities</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">apparent_resistivity_from_voltage</span><span class="p">(</span><span class="n">survey</span><span class="p">,</span> <span class="n">dc_data</span><span class="o">.</span><span class="n">dobs</span><span class="p">,</span> <span class="n">space_type</span><span class="o">=</span><span class="s2">&quot;half space&quot;</span><span class="p">)</span>
@@ -842,6 +562,7 @@
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_html">        <script type="text/javascript">
         window.PlotlyConfig = {MathJaxConfig: 'local'};
@@ -913,8 +634,8 @@ var n,i=t("./lib/build-log"),a=t("./lib/epsilon"),o=t("./lib/intersecter"),s=t("
         });
         }
         </script>
-</div><div class="output text_html"><div>                            <div id="d73045e3-c4ed-420c-b345-a63b6ebe77e6" class="plotly-graph-div" style="height:550px; width:600px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d73045e3-c4ed-420c-b345-a63b6ebe77e6")) {                    Plotly.newPlot(                        "d73045e3-c4ed-420c-b345-a63b6ebe77e6",                        [{"customdata":[0.009504435330046251,0.009498676797547652,0.009570464465265004,0.009849548024132211,0.010535189391304245,0.011673562241270091,0.012322382126836303,0.012277610216686084,0.009478546878477762,0.009704042003791213,0.009831953573398056,0.01072131419272193,0.011391256633722601,0.011859012404287463,0.012341206238261746,0.012481685794680883,0.009422156710408542,0.009584597574693998,0.010309129516887092,0.01077861574754618,0.011951216246202361,0.012503265398141809,0.012414147077814358,0.011899507334702651,0.00953411147139762,0.009907236761004705,0.010520083637913307,0.011520574225923888,0.011809747495057752,0.012261823026252424,0.012183444491795719,0.011876102098272168,0.009277111057918806,0.010311850830072735,0.010906765988193203,0.011239987489298546,0.011640286768885372,0.012209636818075286,0.012053066913034144,0.011360651311402608,0.009466451566641167,0.010166640993233013,0.010898681783674001,0.011192261372165252,0.011625138066657164,0.011536850131841523,0.011494347814109575,0.011044507991088276,0.009513063667571582,0.010410796057895636,0.01066109287039708,0.011369093430133254,0.011440334356704223,0.011631724367568713,0.011237917350584527,0.010880719013614436,0.009642303978460519,0.010241713777191028,0.010885916697849083,0.011124140211212417,0.010824768723284247,0.010810460459826334,0.010525627432145702,0.010526308544689021,0.009410503029176637,0.010378047919701755,0.010544950410951465,0.010846608027491041,0.010484385933104991,0.010503489990619931,0.010426709969257719,0.010118142069546726,0.009721422175701598,0.009840378989642505,0.009996572009829015,0.010151626082431687,0.009857859678742554,0.009875215306372927,0.010137171802776842,0.010227604924995566,0.00952561254044416,0.010068915851429312,0.009885103110605748,0.009560101940604663,0.009613626090883816,0.009820455850994898,0.009835133824130142,0.009717859757076156,0.009673584776610395,0.009694590295791464,0.00960450742072568,0.009411057886507038,0.009199379924527415,0.009581214390607164,0.009618466491490845,0.009672623641687144,0.009338788785535014,0.009823305981510627,0.0094096376628407,0.009502771990632077,0.00935313977419892,0.00945287190261359,0.009649467729869797,0.009300509165340854,0.009366718121195775,0.009271956570051199,0.009337598338887915,0.009269658445271492,0.00941227373377843,0.009581496596456044,0.009493230885528376,0.009336318460455476,0.009259232031119283,0.009585006850623797,0.009217876057453774,0.009555229778905317,0.009434584521104425,0.00958551576249307,0.009428357974962958,0.009758383705114858,0.009382558457810863,0.00934795224216963,0.009404776607199817,0.009570690959601901,0.009127400841145359,0.009434141395159565,0.009201901809950168,0.011443932660503274,0.01643699962829699,0.021767241760914404,0.021999635839051797,0.016385873654830484,0.00929331129548488,0.009231469551080777,0.011041522232464095,0.01528825553067267,0.021513977621860577,0.0222731630139484,0.016766193179887007,0.013817728866398558,0.009146128397173332,0.01020219670088031,0.014169945824531188,0.019126672173771928,0.021401947895254708,0.017910708655188602,0.014249513186839077,0.012786809056589885,0.009485145949399554,0.012344102193690544,0.017329319536769673,0.020643359783636996,0.018753867817089334,0.015404063184117987,0.01355142875839992,0.01153352252796132,0.010443504932533411,0.013679851436403313,0.018640863132454517,0.018697601485033275,0.0169250853395939,0.014790413574900222,0.01283159046010044,0.010274033623981979,0.010347992701033504,0.013911863626930015,0.017122397687261582,0.017531528533763358,0.016420434610999703,0.014183141333301485,0.011952367186185421,0.009791710630399545,0.010728147387401467,0.013756592895260369,0.01617138615227702,0.016947205978075648,0.015386349291192205,0.012913736880048564,0.011251825333756224,0.009621872539717323,0.010709587328150322,0.013316014532272045,0.015204266533203474,0.01477267368231316,0.013385366176053884,0.011439189505922254,0.010071471696712976,0.009544448904472706,0.010206767532672205,0.012113901274533804,0.01316420356181457,0.012242140176313067,0.01098116367051849,0.009657676433940674,0.009246975538391565,0.00965621242716662,0.010103938965344181,0.011166383716093239,0.011048871675821728,0.009886395113296684,0.008545105265189683,0.007812703209559221,0.008362288483812227,0.009944920727142691,0.00978226597123442,0.009959791809778731,0.009118311823160646,0.007812108209143495,0.007302995312925235,0.007402033680657486,0.008607258573414382,0.010117984604522455,0.009545337234188512,0.008915431546644885,0.007737082283374197,0.006820903522665124,0.006841281148216527,0.007715551007075769,0.008875942400750337,0.009560440757453069,0.009011360986858792,0.007939969387149184,0.006508508723859871,0.0062110002798819,0.007132798065818087,0.008040965207256431,0.008742193273926741,0.008403958872096388,0.006944428216936128,0.006347292669355273,0.006528729299362422,0.007327772655269205,0.007735315337299486,0.00817009463317729,0.0069686578796424445,0.006780718129631763,0.00737555311811048,0.007719967470583736,0.008195154401981201,0.007989530910651153,0.007745667484079687,0.007955617093596589,0.008745238518153613,0.008848702075034375,0.008716448523705433,0.008957710853767066,0.009389595928618384,0.009301532130043191,0.009211256463704057,0.009331188141672433,0.009157022789697662,0.011147052650061889,0.0163142227035754,0.023648066093470445,0.02403144951783773,0.018680452630909384,0.009205231988435567,0.009353971671545114,0.010720908703463738,0.015173893308514546,0.021465422062772632,0.024565759928468805,0.019478095542084416,0.015674214750461924,0.009384731267292242,0.010298743009945195,0.0137508687518088,0.02012740788760168,0.023204122498552658,0.02025762388305153,0.016334809996847006,0.013816450647388616,0.009400921166557708,0.012177969448213794,0.017743309963957465,0.02230419998995122,0.021200016342975168,0.017321844933832608,0.01541415019957369,0.012652158602603294,0.010453944051362265,0.014037380248716683,0.019323615459572882,0.02128496065076184,0.019129596927717905,0.01663952295116616,0.013606223658090196,0.010916915801637018,0.010537575238317585,0.01414674168443023,0.018380751865352568,0.019703710230729036,0.018534585409236956,0.015307780088685318,0.01210989403953404,0.010438199028949215,0.010739328826840006,0.013884679829426231,0.01711503106071183,0.018036825337083978,0.016648381048426975,0.013883650943043271,0.011060115405648304,0.009916510568455557,0.010799922797508429,0.013426138489946893,0.01540373985020157,0.015565088140822315,0.014172170220001584,0.011844133970546022,0.01004731024793337,0.009314266767910015,0.010404665321602679,0.012403329013688928,0.013265731606278825,0.012413145348975965,0.011195814506617118,0.009663350715478879,0.008823398551816042,0.009509240914131304,0.01008419665210647,0.011203600011593606,0.011170845903514434,0.009732774896104248,0.0084782386839296,0.007687687544606427,0.008305816091923128,0.009459011522520109,0.00968521702193004,0.01027135419962208,0.009355166126470499,0.007989264416674807,0.007162657402453483,0.007194718082783377,0.008537786248255505,0.009773410787077446,0.009685332542621154,0.009226681872496385,0.007572659201679901,0.006504453990573049,0.0064515673140557745,0.007431284603132273,0.008526631050451873,0.00928736231512215,0.009319866166555855,0.007924122555705121,0.006320528865169176,0.006096758272472248,0.006623670745776838,0.007547160438133462,0.008252005699079077,0.00836974465012484,0.007016709122347514,0.006251430264927123,0.00631310994380444,0.007130322778244918,0.007589186052861938,0.008027168715076492,0.006902462963016248,0.006866497746785916,0.0070678197043422195,0.007320681326308991,0.00813729180210393,0.007807330226780499,0.007661977824630556,0.007547791321192856,0.008928475191444065,0.008623872746086126,0.008235282163504885,0.009208865548963505,0.009163390236796399,0.00928325492393191,0.009497645032954896,0.009268719726447437,0.009225321562620372,0.011417351740051143,0.01634824771272235,0.02240466731870926,0.021482376488218338,0.016094870896514745,0.009355583689208406,0.009349626202468373,0.01093586770047322,0.015023962336232809,0.020751028598042714,0.021865246572855955,0.01671143858806397,0.014060592796106466,0.009215786934864939,0.010146655724809628,0.013762205091500699,0.019449970779168307,0.02215502060799995,0.017505077521386483,0.014636912921619134,0.012676363081631645,0.009438164903876955,0.012020256769377933,0.016885233366329883,0.020870391528730096,0.019084646232425867,0.015907681732257425,0.013741122159911892,0.01139333675600152,0.010367071007297132,0.014062466587065387,0.018492248803880087,0.019532140051030482,0.017130193804498275,0.015073093572855842,0.012524662311830857,0.010508344040825844,0.01050328004216593,0.014098792005983345,0.017855095314332055,0.01743980564169018,0.016464643210769177,0.014026163054215963,0.01184915035795744,0.00988927531756371,0.010312597920742841,0.013534134206760997,0.015996825853479186,0.01664019131282479,0.015346323048781023,0.013184819616446386,0.010885520910550398,0.009735960546574895,0.01064773565831163,0.013048016099171257,0.014967976517331677,0.015236922718977162,0.013271204884967943,0.011803658289288253,0.010119478268034996,0.009459068189823505,0.010233275600034166,0.012067783941662103,0.013206240739072516,0.012191284229047436,0.010773735391417613,0.009479550662157532,0.008961075845268823,0.009546448051841442,0.009887634442902471,0.010948063790494374,0.011068761359943098,0.009783525400929952,0.008445260151974405,0.00805061370883304,0.008417621393711851,0.009700136871703709,0.009657432052202231,0.010331221136741037,0.009026915465379004,0.007889426828830268,0.0072847803086033966,0.007475804250681985,0.00873142326197938,0.00991422448991653,0.009783006773569419,0.00923628792936045,0.007628620883738405,0.006675774750401427,0.006909463829894272,0.007927352883419312,0.009000776086751436,0.009647497125911644,0.009168572799993972,0.007953236692771619,0.006461793646389069,0.006321967126511338,0.006964917363393448,0.00787499105239652,0.008422049029388857,0.008741885684412299,0.0068578781677486956,0.006290556816600288,0.006694098746096617,0.007210914082349112,0.007893693622595312,0.008160063045705867,0.006990550824555792,0.007065065209249583,0.007140844539298964,0.007787527961485878,0.008250655500586644,0.0079121815275233,0.007818570097153286,0.007931772667336572,0.008981970313179962,0.008883147615908193,0.008586166062546485,0.009002100769246691,0.009257162287750401,0.00943252203086892,0.009403777340380089,0.00936803801790527,0.009415175199619938,0.009760374338084967,0.01064606923094335,0.011722533879035938,0.01209850123733364,0.012203161515551232,0.00917858642826666,0.009539209990753899,0.009957634512438382,0.0104336332947094,0.011330217152272769,0.012331990186739434,0.012169333078758159,0.012106982688817129,0.009219165017727895,0.00991621439757264,0.010427095926485998,0.010935332197435034,0.01163837921379326,0.012451425866074506,0.012025567754299686,0.012259579300710392,0.009292898898859123,0.010162847120201811,0.01083079180824136,0.011497103754768116,0.011681709489154743,0.012230897663988443,0.012227964141326755,0.012010937396942456,0.00947858074855139,0.010355881252383618,0.010979785357157322,0.011258198136179074,0.012129540527860772,0.012232875784001411,0.011888117603657612,0.01140180510851864,0.009380790643190098,0.010031989353245108,0.011162008655236082,0.011658335524177084,0.01194927809982295,0.012046672686537401,0.011451807186807487,0.011208214747520645,0.009351642223606944,0.01034623553128803,0.011122795889937611,0.011133363032433893,0.0113271569510686,0.011549772616979792,0.011149812023534204,0.010904319613021718,0.00981456224050776,0.009997785234592577,0.010757412888470866,0.010991438011528746,0.010837913202982715,0.01101618498121985,0.010726747795676998,0.010436346042304324,0.00966014837451724,0.009949634059517841,0.010531586547889197,0.010771476987541991,0.010323215494411916,0.010277364754979505,0.01028254135705725,0.01001340553776142,0.009358623689092363,0.009969254638385524,0.010080115405061152,0.010154888021134713,0.009913835202410941,0.009670462822287795,0.009792304201165806,0.010163771655687973,0.00944038519437247,0.00995411824807368,0.010094316100406892,0.009980520152467528,0.009482651733480387,0.009354603762440933,0.009526237822931907,0.009673775024062036,0.009316593866535473,0.009848873773022702,0.00948834458734409,0.009411229288093835,0.009389728081600764,0.00952495637560754,0.009679637465068471,0.009758503869729632,0.009228635553956312,0.009799742000078033,0.009651074754846571,0.00912974634477164,0.009160964094917661,0.009317915018648282,0.00971437413809016,0.009434740785506471,0.009494433751749113,0.009390177831973108,0.00913303856972431,0.009157156431063372,0.009525032989490655,0.00932123840119745,0.009402586365012072,0.009418678766925292,0.009503101086912758,0.009489365141656698,0.009495180195890846,0.00929003066529561,0.009534111750486029,0.009451445670635175,0.009538558132141581,0.009656161838609826,0.009684746907971081,0.009214004937133985,0.009641785347581967,0.009265731200985016],"marker":{"cmax":-1.6096697966569469,"cmin":-2.2211747084844893,"color":[-2.0220736799905064,-2.0223368894003926,-2.019066984918368,-2.0065836979418763,-1.9773576526653702,-1.9327965967690008,-1.9093053275176814,-1.9108861584968082,-2.023258237665168,-2.013047332300669,-2.0073601808604797,-1.9697519766147515,-1.9434283638060565,-1.9259514766738726,-1.9086423899771086,-1.9037267542462277,-2.0258496768012764,-2.018426116980885,-1.9867780041609855,-1.9674370101885825,-1.9225878953739075,-1.9029765502564064,-1.9060831135740468,-1.9244710189645484,-2.020719774673518,-2.0040474582076886,-1.977980807393322,-1.9385258736094264,-1.9277593879644195,-1.9114449562952842,-1.914229911021958,-1.9253260774514043,-2.032587244356218,-1.9866633780581493,-1.9623040048370177,-1.9492341721594515,-1.9340363203209772,-1.9132972541756463,-1.9189024324305426,-1.9445967696074187,-2.023812782751721,-1.9928225120789074,-1.9626260276279144,-1.9510821563464953,-1.9346018804826304,-1.937912748986975,-1.9395156654359142,-1.956853626240238,-2.021679596664109,-1.9825160610434314,-1.9721982734281163,-1.9442741645108308,-1.9415612826103321,-1.934355897669893,-1.9493141662540274,-1.9633424048834713,-2.0158191812862145,-1.9896273654595877,-1.9631349933519318,-1.953733545826208,-1.9655813737990253,-1.9661558073507792,-1.9777520064474563,-1.9777239041941008,-2.0263871611682065,-1.9838843283207988,-1.9769554582479447,-1.9647060540050458,-1.9794570009328976,-1.9786663740888792,-1.981852706683774,-1.9948992269251762,-2.0122701961972975,-2.006988174948653,-2.0001489012445863,-1.9934643871039792,-2.006217368082444,-2.0054534268052664,-1.9940831931063399,-1.9902260563797871,-2.0211070876332973,-1.9970172886409425,-2.005018796240693,-2.019537476760924,-2.017112773181343,-2.007868352439449,-2.0072197263714,-2.0124293727321025,-2.014412557954074,-2.013470539967095,-2.017524903571297,-2.0263615552710137,-2.036241444875282,-2.0185794418906875,-2.0168941636557056,-2.0144557101402647,-2.0297094468822157,-2.0077423281091886,-2.026427099639543,-2.022149691065544,-2.029042575468569,-2.0244362272607863,-2.0154966419262412,-2.0314932749251104,-2.028412549082552,-2.0328286112799314,-2.0297648113814724,-2.03293626780444,-2.026305450881824,-2.018566650334939,-2.022585956491829,-2.029824342988854,-2.0334250325921692,-2.0184075723856005,-2.0353691356480117,-2.019758864808784,-2.0252772204767644,-2.018384514316594,-2.0255639365847453,-2.0106221091856495,-2.0276787210448464,-2.0292835150448063,-2.026651515840625,-2.0190567070392618,-2.0396528764694235,-2.02529761900855,-2.0361224052403526,-1.9414247063769012,-1.7841774546666758,-1.662196599158571,-1.6575845080141247,-1.7855303981414272,-2.031829515163919,-2.034729158440628,-1.9569710487457361,-1.8156420670157294,-1.667279287449625,-1.6522181043866542,-1.7755655342123966,-1.8595633333616512,-2.0387627061050786,-1.99130630741889,-1.8486318101725916,-1.718360585764105,-1.6695466976011921,-1.7468872305133702,-1.8461999724190423,-1.8932378200260191,-2.0229559821679173,-1.9085404915161839,-1.7612184902132644,-1.685219618248914,-1.7269091493555646,-1.812364708664114,-1.86801491370637,-1.9380380317498036,-1.9811537238047534,-1.863918619041385,-1.72953398227262,-1.7282141008765368,-1.7714691328394927,-1.8300196819337504,-1.8917195100135291,-1.9882590172873738,-1.985143886285412,-1.8566146882194081,-1.7664354201824815,-1.7561802171156222,-1.784615352292032,-1.8482275693908596,-1.9225460734533202,-2.0091414294997443,-1.9694752686113919,-1.8614891147931005,-1.7912527523580577,-1.7709018920523587,-1.8128644127070914,-1.888948066676279,-1.948777018168285,-2.0167404004644327,-1.9702272634874782,-1.8756257395530607,-1.8180345257510626,-1.8305408953183893,-1.873369743560772,-1.9416047452610947,-1.9969070634025654,-2.0202491426664424,-1.9911117765220347,-1.916715970056893,-1.8806054107069508,-1.9121426520014513,-1.9593516353953317,-2.015127349081466,-2.0340002912363198,-2.0151931887545875,-1.995509285878526,-1.9520874523481533,-1.956682070393761,-2.0049620367949776,-2.0682825829362894,-2.1071986734376287,-2.0776748541538583,-2.0023986743697826,-2.0095605332680453,-2.001749739569199,-2.0400855601092256,-2.1072317497277013,-2.136498978089395,-2.1306489431141284,-2.0651351500585937,-1.9949059857473794,-2.020208723492423,-2.0498576301901923,-2.11142278442386,-2.1661580932441757,-2.164862561510829,-2.112633053296556,-2.0517855247272596,-2.019522085326698,-2.045209612523062,-2.100181172008397,-2.1865185086960834,-2.2068384511841446,-2.146740070966322,-2.0946918170443714,-2.0583795962824203,-2.0755160816427267,-2.158363506938929,-2.197411476200678,-2.185171338169987,-2.135028013152117,-2.111521977186639,-2.0877729130601574,-2.1568508562765727,-2.16872430860778,-2.1322054048907244,-2.1123845296352157,-2.0864428596289626,-2.097478718670514,-2.1109411508987352,-2.0993261277773554,-2.0582283410503344,-2.0531204268150334,-2.0596604302891963,-2.0478029602704466,-2.0273530967378512,-2.0314455094225186,-2.0356811257168093,-2.030063053947041,-2.0382457049540252,-1.952839947595352,-1.7874336134844315,-1.626204369483281,-1.6192200328327004,-1.7286126049407895,-2.035965262018428,-2.029003949684118,-1.96976840231354,-1.8189029738956697,-1.6682605678073656,-1.6096697966569469,-1.7104535082375263,-1.804814207312789,-2.0275781589300146,-1.9872157789023803,-1.8616698631284008,-1.696212152215036,-1.6344348504831412,-1.6934114965372913,-1.786885912783328,-1.859603509945349,-2.0268295891713546,-1.9144251198273006,-1.7509653605475277,-1.6516133494759664,-1.673663804275909,-1.7614058535477974,-1.8120804134486073,-1.8978353725732848,-1.9807198285399383,-1.8527139356311717,-1.7139116135704922,-1.671927148360831,-1.718294180726083,-1.7788591289254625,-1.866262394416458,-1.9619000392430113,-1.977259311492278,-1.8493435764945267,-1.7356367277542992,-1.705451988000092,-1.7320171240392945,-1.8150877854700425,-1.9168596568773435,-1.9813744265502735,-1.9690228597824675,-1.8574641303117516,-1.766622308358794,-1.7438399002705267,-1.7786279925432267,-1.857496313713951,-1.956240341406117,-2.003641120936636,-1.9665793490256351,-1.8720488774021384,-1.8123738246751167,-1.8078484156840435,-1.8485636400558063,-1.9264966888933583,-1.9979501870820473,-2.0308513276903657,-1.9827718848246565,-1.9064617359476357,-1.8772687936418353,-1.9061181593051426,-1.950944305581006,-2.014872258168069,-2.0543641033024307,-2.0218541497252285,-1.9963586937282427,-1.9506424046555573,-1.9519139390313254,-2.011763321062134,-2.071694361104151,-2.114204276277447,-2.080617689304542,-2.0241542454951293,-2.0138906433629717,-1.988372294216558,-2.0289484960133737,-2.0974932049770256,-2.1449258211130884,-2.1429862187517323,-2.0686547223787786,-2.0099538469769995,-2.0138854633345447,-2.034954453204903,-2.1207515876307212,-2.1867891539576876,-2.1903347670455062,-2.1289361057779344,-2.0692225286455797,-2.032107611586784,-2.0305903240777363,-2.1010488162159158,-2.199246580955733,-2.214901023776271,-2.178901263911312,-2.1222164176440277,-2.083440480762175,-2.0772877915567256,-2.1538665267742743,-2.2040206090394574,-2.1997566472999526,-2.14689080989039,-2.119804800086885,-2.0954376089234747,-2.1609959150039217,-2.1632647181186324,-2.150714537604434,-2.135448497836881,-2.089520109988005,-2.1074974508856674,-2.115659109290362,-2.12218011556954,-2.0492227037637867,-2.064297660561829,-2.0843215161112485,-2.0357938677587613,-2.0379438179555014,-2.0322997233873843,-2.0223840658668366,-2.0329802501206835,-2.035018486910075,-1.9424346192125959,-1.7865287903723985,-1.6496615004329946,-1.6679176764813448,-1.7933125026165233,-2.028929111948626,-2.029205751849453,-1.961146752399816,-1.8232155138151023,-1.6829603710780392,-1.6602456207830194,-1.7769861626759835,-1.851996369028084,-2.0354675745113684,-1.9936770749513535,-1.861311974360332,-1.7110810468038515,-1.65452784166322,-1.7568359616178386,-1.8345505108787221,-1.8970053300615057,-2.0251124389216395,-1.9200862551009243,-1.7724929327182966,-1.680469403489792,-1.7193158860543796,-1.7983931066040277,-1.8619777994484092,-1.943349065868676,-1.9843439268362228,-1.8519384964428995,-1.7330102719814529,-1.7092501703611036,-1.7662377235640843,-1.8217976047696203,-1.9022339746891004,-1.978465716949321,-1.9786750550479146,-1.8508180963949805,-1.7482378271078292,-1.758458359381193,-1.7834476760224067,-1.853061116732357,-1.9263127895762173,-2.0048355321757647,-1.9866319146857636,-1.8685695212937534,-1.7959661830362332,-1.7788416849187023,-1.8139956638945527,-1.8799258074797882,-1.963150783603631,-2.011621194683449,-1.9727427392352623,-1.884455516117311,-1.8248369068550048,-1.8171027351692624,-1.877089646002311,-1.9279833716241792,-1.994841877926495,-2.0241516437197333,-1.9899853294044283,-1.9183724739183197,-1.8792207901541926,-1.9139505434208337,-1.9676336951589526,-2.0232122480596586,-2.047639846854054,-2.020158186366598,-2.0049075983196807,-1.9606626807742455,-1.955900975746318,-2.009504623097333,-2.0733869676647028,-2.094171011532697,-2.0748106117692124,-2.013222137671253,-2.0151383387831876,-1.9858483424102227,-2.044460624571533,-2.1029545473759095,-2.1375835409701653,-2.12634207887716,-2.0589149585345865,-2.003741251496211,-2.0095276457769664,-2.0345025369736436,-2.117553967512751,-2.1754983254241957,-2.160555652300588,-2.1008718089050418,-2.0457200421537607,-2.0155853421373275,-2.0376982622935937,-2.0994560925082655,-2.1896469150378866,-2.199147766771011,-2.157084031980166,-2.103749930985603,-2.0745822346408724,-2.0583948769762612,-2.1638102345235604,-2.2013109107273836,-2.1743078855592746,-2.1420096790034875,-2.1027197338561847,-2.088306485817659,-2.1554886024173965,-2.150883825338909,-2.146250421687805,-2.108600380975185,-2.083511546119326,-2.101703757369255,-2.1068726658274106,-2.100629741609462,-2.0466283846822813,-2.0514331209326118,-2.066200716211791,-2.0456561298908924,-2.033522122566851,-2.0253721717751376,-2.0266976625106325,-2.0283513554535233,-2.0261715941263145,-2.010533525586683,-1.9728107139552127,-1.930978503442421,-1.9172684267638014,-1.9135276405641601,-2.0372241982839703,-2.020487590795168,-2.0018438182236644,-1.9815644312596894,-1.9457617664711087,-1.908966829538021,-1.914733221946738,-1.916964078564047,-2.035308411334053,-2.0036540919610792,-1.9818366310479547,-1.96116801927275,-1.9341074962769278,-1.9047809128003335,-1.9198944104436346,-1.9115244327959784,-2.0318487876866205,-1.9929846074678739,-1.9653397921854208,-1.9394115493628072,-1.9324935983724618,-1.9125416675581335,-1.9126458435186307,-1.9204230966410003,-2.023256685785963,-1.984812938126139,-1.9594061497869566,-1.9485311123384539,-1.9161556500809995,-1.912471434189608,-1.9248869072874937,-1.943026386680273,-2.0277605563433276,-1.9986129374213883,-1.952257645058938,-1.9333634499428225,-1.9226583312625847,-1.919132889472393,-1.9411259727715082,-1.9504635566329032,-2.0291121168254187,-1.9852176391325822,-1.9537860322728458,-1.9533736293926829,-1.945879081787394,-1.9374265657426608,-1.9527324543942945,-1.9624014275202826,-2.008129066494103,-2.000096196692564,-1.9682921620671212,-1.9589454850453891,-1.965054331420749,-1.9579687801178232,-1.969531930269119,-1.9814515292487307,-2.015016203011088,-2.002192892003487,-1.9775061988913414,-1.9677247420539594,-1.9861850067815467,-1.9881182296098918,-1.9878995350543205,-1.999418194775851,-2.028788015383913,-2.00133731094983,-1.9965344957184363,-1.9933248612371575,-2.003758304643942,-2.0145527403579786,-2.009115103487361,-1.9929451005863146,-2.025010284899233,-2.0019972044418184,-1.9959230995911414,-2.0008468240974264,-2.023070199351664,-2.0289746033996625,-2.0210785805088998,-2.0144040169004835,-2.0307428360734763,-2.0066134286014594,-2.0228095514603583,-2.0263536456304214,-2.0273469843441374,-2.021137004720722,-2.0141409081739083,-2.010616761321763,-2.0348625043035637,-2.008785357921524,-2.0154243204273135,-2.0395412884674857,-2.038058819010091,-2.030681254727078,-2.0125851741820067,-2.0252700273454334,-2.0225309314876685,-2.0273261829507887,-2.0393847082797087,-2.0382393667275633,-2.0211335114918243,-2.0305263843115458,-2.0267526687882103,-2.026010014879927,-2.0221346510094365,-2.02276284180854,-2.0224967889745176,-2.0319828524491257,-2.0207197619605815,-2.0245017577595115,-2.0205172691722817,-2.0151954640140413,-2.0139117242383953,-2.0355515593755604,-2.0158425413241137,-2.033120302840204],"colorbar":{"thickness":20,"tickformat":".2f","tickprefix":"10^","title":{"text":"S/m"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"opacity":0.8,"size":4},"mode":"markers","type":"scatter3d","x":[-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0],"y":[-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0],"z":[-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0]}],                        {"height":550,"scene":{"aspectratio":{"x":1,"y":1,"z":0.5},"camera":{"center":{"x":-0.1,"y":0,"z":-0.2},"eye":{"x":1.2,"y":-1,"z":1.5}},"xaxis":{"range":[-1000,1000],"title":{"text":"X[m]"}},"yaxis":{"range":[-1000,1000],"title":{"text":"Y[m]"}},"zaxis":{"range":[-500,0],"title":{"text":"Z[m]"}}},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"text":"Apparent Conductivities","x":0.5},"width":600},                        {"responsive": true}                    ).then(function(){
-
+        </div><div class="output text_html"><div>                            <div id="d73045e3-c4ed-420c-b345-a63b6ebe77e6" class="plotly-graph-div" style="height:550px; width:600px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d73045e3-c4ed-420c-b345-a63b6ebe77e6")) {                    Plotly.newPlot(                        "d73045e3-c4ed-420c-b345-a63b6ebe77e6",                        [{"customdata":[0.009504435330046251,0.009498676797547652,0.009570464465265004,0.009849548024132211,0.010535189391304245,0.011673562241270091,0.012322382126836303,0.012277610216686084,0.009478546878477762,0.009704042003791213,0.009831953573398056,0.01072131419272193,0.011391256633722601,0.011859012404287463,0.012341206238261746,0.012481685794680883,0.009422156710408542,0.009584597574693998,0.010309129516887092,0.01077861574754618,0.011951216246202361,0.012503265398141809,0.012414147077814358,0.011899507334702651,0.00953411147139762,0.009907236761004705,0.010520083637913307,0.011520574225923888,0.011809747495057752,0.012261823026252424,0.012183444491795719,0.011876102098272168,0.009277111057918806,0.010311850830072735,0.010906765988193203,0.011239987489298546,0.011640286768885372,0.012209636818075286,0.012053066913034144,0.011360651311402608,0.009466451566641167,0.010166640993233013,0.010898681783674001,0.011192261372165252,0.011625138066657164,0.011536850131841523,0.011494347814109575,0.011044507991088276,0.009513063667571582,0.010410796057895636,0.01066109287039708,0.011369093430133254,0.011440334356704223,0.011631724367568713,0.011237917350584527,0.010880719013614436,0.009642303978460519,0.010241713777191028,0.010885916697849083,0.011124140211212417,0.010824768723284247,0.010810460459826334,0.010525627432145702,0.010526308544689021,0.009410503029176637,0.010378047919701755,0.010544950410951465,0.010846608027491041,0.010484385933104991,0.010503489990619931,0.010426709969257719,0.010118142069546726,0.009721422175701598,0.009840378989642505,0.009996572009829015,0.010151626082431687,0.009857859678742554,0.009875215306372927,0.010137171802776842,0.010227604924995566,0.00952561254044416,0.010068915851429312,0.009885103110605748,0.009560101940604663,0.009613626090883816,0.009820455850994898,0.009835133824130142,0.009717859757076156,0.009673584776610395,0.009694590295791464,0.00960450742072568,0.009411057886507038,0.009199379924527415,0.009581214390607164,0.009618466491490845,0.009672623641687144,0.009338788785535014,0.009823305981510627,0.0094096376628407,0.009502771990632077,0.00935313977419892,0.00945287190261359,0.009649467729869797,0.009300509165340854,0.009366718121195775,0.009271956570051199,0.009337598338887915,0.009269658445271492,0.00941227373377843,0.009581496596456044,0.009493230885528376,0.009336318460455476,0.009259232031119283,0.009585006850623797,0.009217876057453774,0.009555229778905317,0.009434584521104425,0.00958551576249307,0.009428357974962958,0.009758383705114858,0.009382558457810863,0.00934795224216963,0.009404776607199817,0.009570690959601901,0.009127400841145359,0.009434141395159565,0.009201901809950168,0.011443932660503274,0.01643699962829699,0.021767241760914404,0.021999635839051797,0.016385873654830484,0.00929331129548488,0.009231469551080777,0.011041522232464095,0.01528825553067267,0.021513977621860577,0.0222731630139484,0.016766193179887007,0.013817728866398558,0.009146128397173332,0.01020219670088031,0.014169945824531188,0.019126672173771928,0.021401947895254708,0.017910708655188602,0.014249513186839077,0.012786809056589885,0.009485145949399554,0.012344102193690544,0.017329319536769673,0.020643359783636996,0.018753867817089334,0.015404063184117987,0.01355142875839992,0.01153352252796132,0.010443504932533411,0.013679851436403313,0.018640863132454517,0.018697601485033275,0.0169250853395939,0.014790413574900222,0.01283159046010044,0.010274033623981979,0.010347992701033504,0.013911863626930015,0.017122397687261582,0.017531528533763358,0.016420434610999703,0.014183141333301485,0.011952367186185421,0.009791710630399545,0.010728147387401467,0.013756592895260369,0.01617138615227702,0.016947205978075648,0.015386349291192205,0.012913736880048564,0.011251825333756224,0.009621872539717323,0.010709587328150322,0.013316014532272045,0.015204266533203474,0.01477267368231316,0.013385366176053884,0.011439189505922254,0.010071471696712976,0.009544448904472706,0.010206767532672205,0.012113901274533804,0.01316420356181457,0.012242140176313067,0.01098116367051849,0.009657676433940674,0.009246975538391565,0.00965621242716662,0.010103938965344181,0.011166383716093239,0.011048871675821728,0.009886395113296684,0.008545105265189683,0.007812703209559221,0.008362288483812227,0.009944920727142691,0.00978226597123442,0.009959791809778731,0.009118311823160646,0.007812108209143495,0.007302995312925235,0.007402033680657486,0.008607258573414382,0.010117984604522455,0.009545337234188512,0.008915431546644885,0.007737082283374197,0.006820903522665124,0.006841281148216527,0.007715551007075769,0.008875942400750337,0.009560440757453069,0.009011360986858792,0.007939969387149184,0.006508508723859871,0.0062110002798819,0.007132798065818087,0.008040965207256431,0.008742193273926741,0.008403958872096388,0.006944428216936128,0.006347292669355273,0.006528729299362422,0.007327772655269205,0.007735315337299486,0.00817009463317729,0.0069686578796424445,0.006780718129631763,0.00737555311811048,0.007719967470583736,0.008195154401981201,0.007989530910651153,0.007745667484079687,0.007955617093596589,0.008745238518153613,0.008848702075034375,0.008716448523705433,0.008957710853767066,0.009389595928618384,0.009301532130043191,0.009211256463704057,0.009331188141672433,0.009157022789697662,0.011147052650061889,0.0163142227035754,0.023648066093470445,0.02403144951783773,0.018680452630909384,0.009205231988435567,0.009353971671545114,0.010720908703463738,0.015173893308514546,0.021465422062772632,0.024565759928468805,0.019478095542084416,0.015674214750461924,0.009384731267292242,0.010298743009945195,0.0137508687518088,0.02012740788760168,0.023204122498552658,0.02025762388305153,0.016334809996847006,0.013816450647388616,0.009400921166557708,0.012177969448213794,0.017743309963957465,0.02230419998995122,0.021200016342975168,0.017321844933832608,0.01541415019957369,0.012652158602603294,0.010453944051362265,0.014037380248716683,0.019323615459572882,0.02128496065076184,0.019129596927717905,0.01663952295116616,0.013606223658090196,0.010916915801637018,0.010537575238317585,0.01414674168443023,0.018380751865352568,0.019703710230729036,0.018534585409236956,0.015307780088685318,0.01210989403953404,0.010438199028949215,0.010739328826840006,0.013884679829426231,0.01711503106071183,0.018036825337083978,0.016648381048426975,0.013883650943043271,0.011060115405648304,0.009916510568455557,0.010799922797508429,0.013426138489946893,0.01540373985020157,0.015565088140822315,0.014172170220001584,0.011844133970546022,0.01004731024793337,0.009314266767910015,0.010404665321602679,0.012403329013688928,0.013265731606278825,0.012413145348975965,0.011195814506617118,0.009663350715478879,0.008823398551816042,0.009509240914131304,0.01008419665210647,0.011203600011593606,0.011170845903514434,0.009732774896104248,0.0084782386839296,0.007687687544606427,0.008305816091923128,0.009459011522520109,0.00968521702193004,0.01027135419962208,0.009355166126470499,0.007989264416674807,0.007162657402453483,0.007194718082783377,0.008537786248255505,0.009773410787077446,0.009685332542621154,0.009226681872496385,0.007572659201679901,0.006504453990573049,0.0064515673140557745,0.007431284603132273,0.008526631050451873,0.00928736231512215,0.009319866166555855,0.007924122555705121,0.006320528865169176,0.006096758272472248,0.006623670745776838,0.007547160438133462,0.008252005699079077,0.00836974465012484,0.007016709122347514,0.006251430264927123,0.00631310994380444,0.007130322778244918,0.007589186052861938,0.008027168715076492,0.006902462963016248,0.006866497746785916,0.0070678197043422195,0.007320681326308991,0.00813729180210393,0.007807330226780499,0.007661977824630556,0.007547791321192856,0.008928475191444065,0.008623872746086126,0.008235282163504885,0.009208865548963505,0.009163390236796399,0.00928325492393191,0.009497645032954896,0.009268719726447437,0.009225321562620372,0.011417351740051143,0.01634824771272235,0.02240466731870926,0.021482376488218338,0.016094870896514745,0.009355583689208406,0.009349626202468373,0.01093586770047322,0.015023962336232809,0.020751028598042714,0.021865246572855955,0.01671143858806397,0.014060592796106466,0.009215786934864939,0.010146655724809628,0.013762205091500699,0.019449970779168307,0.02215502060799995,0.017505077521386483,0.014636912921619134,0.012676363081631645,0.009438164903876955,0.012020256769377933,0.016885233366329883,0.020870391528730096,0.019084646232425867,0.015907681732257425,0.013741122159911892,0.01139333675600152,0.010367071007297132,0.014062466587065387,0.018492248803880087,0.019532140051030482,0.017130193804498275,0.015073093572855842,0.012524662311830857,0.010508344040825844,0.01050328004216593,0.014098792005983345,0.017855095314332055,0.01743980564169018,0.016464643210769177,0.014026163054215963,0.01184915035795744,0.00988927531756371,0.010312597920742841,0.013534134206760997,0.015996825853479186,0.01664019131282479,0.015346323048781023,0.013184819616446386,0.010885520910550398,0.009735960546574895,0.01064773565831163,0.013048016099171257,0.014967976517331677,0.015236922718977162,0.013271204884967943,0.011803658289288253,0.010119478268034996,0.009459068189823505,0.010233275600034166,0.012067783941662103,0.013206240739072516,0.012191284229047436,0.010773735391417613,0.009479550662157532,0.008961075845268823,0.009546448051841442,0.009887634442902471,0.010948063790494374,0.011068761359943098,0.009783525400929952,0.008445260151974405,0.00805061370883304,0.008417621393711851,0.009700136871703709,0.009657432052202231,0.010331221136741037,0.009026915465379004,0.007889426828830268,0.0072847803086033966,0.007475804250681985,0.00873142326197938,0.00991422448991653,0.009783006773569419,0.00923628792936045,0.007628620883738405,0.006675774750401427,0.006909463829894272,0.007927352883419312,0.009000776086751436,0.009647497125911644,0.009168572799993972,0.007953236692771619,0.006461793646389069,0.006321967126511338,0.006964917363393448,0.00787499105239652,0.008422049029388857,0.008741885684412299,0.0068578781677486956,0.006290556816600288,0.006694098746096617,0.007210914082349112,0.007893693622595312,0.008160063045705867,0.006990550824555792,0.007065065209249583,0.007140844539298964,0.007787527961485878,0.008250655500586644,0.0079121815275233,0.007818570097153286,0.007931772667336572,0.008981970313179962,0.008883147615908193,0.008586166062546485,0.009002100769246691,0.009257162287750401,0.00943252203086892,0.009403777340380089,0.00936803801790527,0.009415175199619938,0.009760374338084967,0.01064606923094335,0.011722533879035938,0.01209850123733364,0.012203161515551232,0.00917858642826666,0.009539209990753899,0.009957634512438382,0.0104336332947094,0.011330217152272769,0.012331990186739434,0.012169333078758159,0.012106982688817129,0.009219165017727895,0.00991621439757264,0.010427095926485998,0.010935332197435034,0.01163837921379326,0.012451425866074506,0.012025567754299686,0.012259579300710392,0.009292898898859123,0.010162847120201811,0.01083079180824136,0.011497103754768116,0.011681709489154743,0.012230897663988443,0.012227964141326755,0.012010937396942456,0.00947858074855139,0.010355881252383618,0.010979785357157322,0.011258198136179074,0.012129540527860772,0.012232875784001411,0.011888117603657612,0.01140180510851864,0.009380790643190098,0.010031989353245108,0.011162008655236082,0.011658335524177084,0.01194927809982295,0.012046672686537401,0.011451807186807487,0.011208214747520645,0.009351642223606944,0.01034623553128803,0.011122795889937611,0.011133363032433893,0.0113271569510686,0.011549772616979792,0.011149812023534204,0.010904319613021718,0.00981456224050776,0.009997785234592577,0.010757412888470866,0.010991438011528746,0.010837913202982715,0.01101618498121985,0.010726747795676998,0.010436346042304324,0.00966014837451724,0.009949634059517841,0.010531586547889197,0.010771476987541991,0.010323215494411916,0.010277364754979505,0.01028254135705725,0.01001340553776142,0.009358623689092363,0.009969254638385524,0.010080115405061152,0.010154888021134713,0.009913835202410941,0.009670462822287795,0.009792304201165806,0.010163771655687973,0.00944038519437247,0.00995411824807368,0.010094316100406892,0.009980520152467528,0.009482651733480387,0.009354603762440933,0.009526237822931907,0.009673775024062036,0.009316593866535473,0.009848873773022702,0.00948834458734409,0.009411229288093835,0.009389728081600764,0.00952495637560754,0.009679637465068471,0.009758503869729632,0.009228635553956312,0.009799742000078033,0.009651074754846571,0.00912974634477164,0.009160964094917661,0.009317915018648282,0.00971437413809016,0.009434740785506471,0.009494433751749113,0.009390177831973108,0.00913303856972431,0.009157156431063372,0.009525032989490655,0.00932123840119745,0.009402586365012072,0.009418678766925292,0.009503101086912758,0.009489365141656698,0.009495180195890846,0.00929003066529561,0.009534111750486029,0.009451445670635175,0.009538558132141581,0.009656161838609826,0.009684746907971081,0.009214004937133985,0.009641785347581967,0.009265731200985016],"marker":{"cmax":-1.6096697966569469,"cmin":-2.2211747084844893,"color":[-2.0220736799905064,-2.0223368894003926,-2.019066984918368,-2.0065836979418763,-1.9773576526653702,-1.9327965967690008,-1.9093053275176814,-1.9108861584968082,-2.023258237665168,-2.013047332300669,-2.0073601808604797,-1.9697519766147515,-1.9434283638060565,-1.9259514766738726,-1.9086423899771086,-1.9037267542462277,-2.0258496768012764,-2.018426116980885,-1.9867780041609855,-1.9674370101885825,-1.9225878953739075,-1.9029765502564064,-1.9060831135740468,-1.9244710189645484,-2.020719774673518,-2.0040474582076886,-1.977980807393322,-1.9385258736094264,-1.9277593879644195,-1.9114449562952842,-1.914229911021958,-1.9253260774514043,-2.032587244356218,-1.9866633780581493,-1.9623040048370177,-1.9492341721594515,-1.9340363203209772,-1.9132972541756463,-1.9189024324305426,-1.9445967696074187,-2.023812782751721,-1.9928225120789074,-1.9626260276279144,-1.9510821563464953,-1.9346018804826304,-1.937912748986975,-1.9395156654359142,-1.956853626240238,-2.021679596664109,-1.9825160610434314,-1.9721982734281163,-1.9442741645108308,-1.9415612826103321,-1.934355897669893,-1.9493141662540274,-1.9633424048834713,-2.0158191812862145,-1.9896273654595877,-1.9631349933519318,-1.953733545826208,-1.9655813737990253,-1.9661558073507792,-1.9777520064474563,-1.9777239041941008,-2.0263871611682065,-1.9838843283207988,-1.9769554582479447,-1.9647060540050458,-1.9794570009328976,-1.9786663740888792,-1.981852706683774,-1.9948992269251762,-2.0122701961972975,-2.006988174948653,-2.0001489012445863,-1.9934643871039792,-2.006217368082444,-2.0054534268052664,-1.9940831931063399,-1.9902260563797871,-2.0211070876332973,-1.9970172886409425,-2.005018796240693,-2.019537476760924,-2.017112773181343,-2.007868352439449,-2.0072197263714,-2.0124293727321025,-2.014412557954074,-2.013470539967095,-2.017524903571297,-2.0263615552710137,-2.036241444875282,-2.0185794418906875,-2.0168941636557056,-2.0144557101402647,-2.0297094468822157,-2.0077423281091886,-2.026427099639543,-2.022149691065544,-2.029042575468569,-2.0244362272607863,-2.0154966419262412,-2.0314932749251104,-2.028412549082552,-2.0328286112799314,-2.0297648113814724,-2.03293626780444,-2.026305450881824,-2.018566650334939,-2.022585956491829,-2.029824342988854,-2.0334250325921692,-2.0184075723856005,-2.0353691356480117,-2.019758864808784,-2.0252772204767644,-2.018384514316594,-2.0255639365847453,-2.0106221091856495,-2.0276787210448464,-2.0292835150448063,-2.026651515840625,-2.0190567070392618,-2.0396528764694235,-2.02529761900855,-2.0361224052403526,-1.9414247063769012,-1.7841774546666758,-1.662196599158571,-1.6575845080141247,-1.7855303981414272,-2.031829515163919,-2.034729158440628,-1.9569710487457361,-1.8156420670157294,-1.667279287449625,-1.6522181043866542,-1.7755655342123966,-1.8595633333616512,-2.0387627061050786,-1.99130630741889,-1.8486318101725916,-1.718360585764105,-1.6695466976011921,-1.7468872305133702,-1.8461999724190423,-1.8932378200260191,-2.0229559821679173,-1.9085404915161839,-1.7612184902132644,-1.685219618248914,-1.7269091493555646,-1.812364708664114,-1.86801491370637,-1.9380380317498036,-1.9811537238047534,-1.863918619041385,-1.72953398227262,-1.7282141008765368,-1.7714691328394927,-1.8300196819337504,-1.8917195100135291,-1.9882590172873738,-1.985143886285412,-1.8566146882194081,-1.7664354201824815,-1.7561802171156222,-1.784615352292032,-1.8482275693908596,-1.9225460734533202,-2.0091414294997443,-1.9694752686113919,-1.8614891147931005,-1.7912527523580577,-1.7709018920523587,-1.8128644127070914,-1.888948066676279,-1.948777018168285,-2.0167404004644327,-1.9702272634874782,-1.8756257395530607,-1.8180345257510626,-1.8305408953183893,-1.873369743560772,-1.9416047452610947,-1.9969070634025654,-2.0202491426664424,-1.9911117765220347,-1.916715970056893,-1.8806054107069508,-1.9121426520014513,-1.9593516353953317,-2.015127349081466,-2.0340002912363198,-2.0151931887545875,-1.995509285878526,-1.9520874523481533,-1.956682070393761,-2.0049620367949776,-2.0682825829362894,-2.1071986734376287,-2.0776748541538583,-2.0023986743697826,-2.0095605332680453,-2.001749739569199,-2.0400855601092256,-2.1072317497277013,-2.136498978089395,-2.1306489431141284,-2.0651351500585937,-1.9949059857473794,-2.020208723492423,-2.0498576301901923,-2.11142278442386,-2.1661580932441757,-2.164862561510829,-2.112633053296556,-2.0517855247272596,-2.019522085326698,-2.045209612523062,-2.100181172008397,-2.1865185086960834,-2.2068384511841446,-2.146740070966322,-2.0946918170443714,-2.0583795962824203,-2.0755160816427267,-2.158363506938929,-2.197411476200678,-2.185171338169987,-2.135028013152117,-2.111521977186639,-2.0877729130601574,-2.1568508562765727,-2.16872430860778,-2.1322054048907244,-2.1123845296352157,-2.0864428596289626,-2.097478718670514,-2.1109411508987352,-2.0993261277773554,-2.0582283410503344,-2.0531204268150334,-2.0596604302891963,-2.0478029602704466,-2.0273530967378512,-2.0314455094225186,-2.0356811257168093,-2.030063053947041,-2.0382457049540252,-1.952839947595352,-1.7874336134844315,-1.626204369483281,-1.6192200328327004,-1.7286126049407895,-2.035965262018428,-2.029003949684118,-1.96976840231354,-1.8189029738956697,-1.6682605678073656,-1.6096697966569469,-1.7104535082375263,-1.804814207312789,-2.0275781589300146,-1.9872157789023803,-1.8616698631284008,-1.696212152215036,-1.6344348504831412,-1.6934114965372913,-1.786885912783328,-1.859603509945349,-2.0268295891713546,-1.9144251198273006,-1.7509653605475277,-1.6516133494759664,-1.673663804275909,-1.7614058535477974,-1.8120804134486073,-1.8978353725732848,-1.9807198285399383,-1.8527139356311717,-1.7139116135704922,-1.671927148360831,-1.718294180726083,-1.7788591289254625,-1.866262394416458,-1.9619000392430113,-1.977259311492278,-1.8493435764945267,-1.7356367277542992,-1.705451988000092,-1.7320171240392945,-1.8150877854700425,-1.9168596568773435,-1.9813744265502735,-1.9690228597824675,-1.8574641303117516,-1.766622308358794,-1.7438399002705267,-1.7786279925432267,-1.857496313713951,-1.956240341406117,-2.003641120936636,-1.9665793490256351,-1.8720488774021384,-1.8123738246751167,-1.8078484156840435,-1.8485636400558063,-1.9264966888933583,-1.9979501870820473,-2.0308513276903657,-1.9827718848246565,-1.9064617359476357,-1.8772687936418353,-1.9061181593051426,-1.950944305581006,-2.014872258168069,-2.0543641033024307,-2.0218541497252285,-1.9963586937282427,-1.9506424046555573,-1.9519139390313254,-2.011763321062134,-2.071694361104151,-2.114204276277447,-2.080617689304542,-2.0241542454951293,-2.0138906433629717,-1.988372294216558,-2.0289484960133737,-2.0974932049770256,-2.1449258211130884,-2.1429862187517323,-2.0686547223787786,-2.0099538469769995,-2.0138854633345447,-2.034954453204903,-2.1207515876307212,-2.1867891539576876,-2.1903347670455062,-2.1289361057779344,-2.0692225286455797,-2.032107611586784,-2.0305903240777363,-2.1010488162159158,-2.199246580955733,-2.214901023776271,-2.178901263911312,-2.1222164176440277,-2.083440480762175,-2.0772877915567256,-2.1538665267742743,-2.2040206090394574,-2.1997566472999526,-2.14689080989039,-2.119804800086885,-2.0954376089234747,-2.1609959150039217,-2.1632647181186324,-2.150714537604434,-2.135448497836881,-2.089520109988005,-2.1074974508856674,-2.115659109290362,-2.12218011556954,-2.0492227037637867,-2.064297660561829,-2.0843215161112485,-2.0357938677587613,-2.0379438179555014,-2.0322997233873843,-2.0223840658668366,-2.0329802501206835,-2.035018486910075,-1.9424346192125959,-1.7865287903723985,-1.6496615004329946,-1.6679176764813448,-1.7933125026165233,-2.028929111948626,-2.029205751849453,-1.961146752399816,-1.8232155138151023,-1.6829603710780392,-1.6602456207830194,-1.7769861626759835,-1.851996369028084,-2.0354675745113684,-1.9936770749513535,-1.861311974360332,-1.7110810468038515,-1.65452784166322,-1.7568359616178386,-1.8345505108787221,-1.8970053300615057,-2.0251124389216395,-1.9200862551009243,-1.7724929327182966,-1.680469403489792,-1.7193158860543796,-1.7983931066040277,-1.8619777994484092,-1.943349065868676,-1.9843439268362228,-1.8519384964428995,-1.7330102719814529,-1.7092501703611036,-1.7662377235640843,-1.8217976047696203,-1.9022339746891004,-1.978465716949321,-1.9786750550479146,-1.8508180963949805,-1.7482378271078292,-1.758458359381193,-1.7834476760224067,-1.853061116732357,-1.9263127895762173,-2.0048355321757647,-1.9866319146857636,-1.8685695212937534,-1.7959661830362332,-1.7788416849187023,-1.8139956638945527,-1.8799258074797882,-1.963150783603631,-2.011621194683449,-1.9727427392352623,-1.884455516117311,-1.8248369068550048,-1.8171027351692624,-1.877089646002311,-1.9279833716241792,-1.994841877926495,-2.0241516437197333,-1.9899853294044283,-1.9183724739183197,-1.8792207901541926,-1.9139505434208337,-1.9676336951589526,-2.0232122480596586,-2.047639846854054,-2.020158186366598,-2.0049075983196807,-1.9606626807742455,-1.955900975746318,-2.009504623097333,-2.0733869676647028,-2.094171011532697,-2.0748106117692124,-2.013222137671253,-2.0151383387831876,-1.9858483424102227,-2.044460624571533,-2.1029545473759095,-2.1375835409701653,-2.12634207887716,-2.0589149585345865,-2.003741251496211,-2.0095276457769664,-2.0345025369736436,-2.117553967512751,-2.1754983254241957,-2.160555652300588,-2.1008718089050418,-2.0457200421537607,-2.0155853421373275,-2.0376982622935937,-2.0994560925082655,-2.1896469150378866,-2.199147766771011,-2.157084031980166,-2.103749930985603,-2.0745822346408724,-2.0583948769762612,-2.1638102345235604,-2.2013109107273836,-2.1743078855592746,-2.1420096790034875,-2.1027197338561847,-2.088306485817659,-2.1554886024173965,-2.150883825338909,-2.146250421687805,-2.108600380975185,-2.083511546119326,-2.101703757369255,-2.1068726658274106,-2.100629741609462,-2.0466283846822813,-2.0514331209326118,-2.066200716211791,-2.0456561298908924,-2.033522122566851,-2.0253721717751376,-2.0266976625106325,-2.0283513554535233,-2.0261715941263145,-2.010533525586683,-1.9728107139552127,-1.930978503442421,-1.9172684267638014,-1.9135276405641601,-2.0372241982839703,-2.020487590795168,-2.0018438182236644,-1.9815644312596894,-1.9457617664711087,-1.908966829538021,-1.914733221946738,-1.916964078564047,-2.035308411334053,-2.0036540919610792,-1.9818366310479547,-1.96116801927275,-1.9341074962769278,-1.9047809128003335,-1.9198944104436346,-1.9115244327959784,-2.0318487876866205,-1.9929846074678739,-1.9653397921854208,-1.9394115493628072,-1.9324935983724618,-1.9125416675581335,-1.9126458435186307,-1.9204230966410003,-2.023256685785963,-1.984812938126139,-1.9594061497869566,-1.9485311123384539,-1.9161556500809995,-1.912471434189608,-1.9248869072874937,-1.943026386680273,-2.0277605563433276,-1.9986129374213883,-1.952257645058938,-1.9333634499428225,-1.9226583312625847,-1.919132889472393,-1.9411259727715082,-1.9504635566329032,-2.0291121168254187,-1.9852176391325822,-1.9537860322728458,-1.9533736293926829,-1.945879081787394,-1.9374265657426608,-1.9527324543942945,-1.9624014275202826,-2.008129066494103,-2.000096196692564,-1.9682921620671212,-1.9589454850453891,-1.965054331420749,-1.9579687801178232,-1.969531930269119,-1.9814515292487307,-2.015016203011088,-2.002192892003487,-1.9775061988913414,-1.9677247420539594,-1.9861850067815467,-1.9881182296098918,-1.9878995350543205,-1.999418194775851,-2.028788015383913,-2.00133731094983,-1.9965344957184363,-1.9933248612371575,-2.003758304643942,-2.0145527403579786,-2.009115103487361,-1.9929451005863146,-2.025010284899233,-2.0019972044418184,-1.9959230995911414,-2.0008468240974264,-2.023070199351664,-2.0289746033996625,-2.0210785805088998,-2.0144040169004835,-2.0307428360734763,-2.0066134286014594,-2.0228095514603583,-2.0263536456304214,-2.0273469843441374,-2.021137004720722,-2.0141409081739083,-2.010616761321763,-2.0348625043035637,-2.008785357921524,-2.0154243204273135,-2.0395412884674857,-2.038058819010091,-2.030681254727078,-2.0125851741820067,-2.0252700273454334,-2.0225309314876685,-2.0273261829507887,-2.0393847082797087,-2.0382393667275633,-2.0211335114918243,-2.0305263843115458,-2.0267526687882103,-2.026010014879927,-2.0221346510094365,-2.02276284180854,-2.0224967889745176,-2.0319828524491257,-2.0207197619605815,-2.0245017577595115,-2.0205172691722817,-2.0151954640140413,-2.0139117242383953,-2.0355515593755604,-2.0158425413241137,-2.033120302840204],"colorbar":{"thickness":20,"tickformat":".2f","tickprefix":"10^","title":{"text":"S/m"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]],"opacity":0.8,"size":4},"mode":"markers","type":"scatter3d","x":[-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0,-925.0,-875.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-825.0,-775.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-725.0,-675.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-625.0,-575.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-525.0,-475.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-425.0,-375.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-325.0,-275.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,-225.0,-175.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,-125.0,-75.0,-25.0,25.0,75.0,125.0,175.0,225.0,-25.0,25.0,75.0,125.0,175.0,225.0,275.0,325.0,75.0,125.0,175.0,225.0,275.0,325.0,375.0,425.0,175.0,225.0,275.0,325.0,375.0,425.0,475.0,525.0,275.0,325.0,375.0,425.0,475.0,525.0,575.0,375.0,425.0,475.0,525.0,575.0,625.0,475.0,525.0,575.0,625.0,675.0,575.0,625.0,675.0,725.0,675.0,725.0,775.0,775.0,825.0,875.0],"y":[-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-1000.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,-500.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,500.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0],"z":[-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-425.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-375.0,-75.0,-125.0,-175.0,-225.0,-275.0,-325.0,-75.0,-125.0,-175.0,-225.0,-275.0,-75.0,-125.0,-175.0,-225.0,-75.0,-125.0,-175.0,-75.0,-125.0,-75.0]}],                        {"height":550,"scene":{"aspectratio":{"x":1,"y":1,"z":0.5},"camera":{"center":{"x":-0.1,"y":0,"z":-0.2},"eye":{"x":1.2,"y":-1,"z":1.5}},"xaxis":{"range":[-1000,1000],"title":{"text":"X[m]"}},"yaxis":{"range":[-1000,1000],"title":{"text":"Y[m]"}},"zaxis":{"range":[-500,0],"title":{"text":"Z[m]"}}},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}},"title":{"text":"Apparent Conductivities","x":0.5},"width":600},                        {"responsive": true}                    ).then(function(){
+                            
 var gd = document.getElementById('d73045e3-c4ed-420c-b345-a63b6ebe77e6');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
@@ -941,6 +662,11 @@ if (outputEl) {{
 </div>
 <p>And here we plot the OcTree mesh used in the inversion. Since the topography is flat, all cells are active.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ind</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">hy</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
@@ -956,15 +682,21 @@ if (outputEl) {{
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;z (m)&#39;)
 </pre></div>
 </div>
-<img alt="../../../_images/reproduce_simpeg_11_1.png" src="../../../_images/reproduce_simpeg_11_1.png" />
+<img alt="../../../_images/9b568ecb24f3d4513d13f54691e886bf7fcd8832b8258ed6e95dedf489847d67.png" src="../../../_images/9b568ecb24f3d4513d13f54691e886bf7fcd8832b8258ed6e95dedf489847d67.png" />
 </div>
 </div>
 <p>Next, we define the mapping from the model space to the mesh and the simulation.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sig_map</span> <span class="o">=</span> <span class="n">maps</span><span class="o">.</span><span class="n">ExpMap</span><span class="p">()</span>
 
@@ -978,17 +710,29 @@ if (outputEl) {{
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>We now define a starting model for the inversion. We are inverting for the natural log of the conductivity. The starting model is defined based on a known background conductivity of 0.01 S/m.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">m0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">1e-2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nC</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>Here we define the measure of data misfit, the regularization and the algorithm used to compute the step-direction at each iteration. These are used to define the inverse problem.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dmis</span> <span class="o">=</span> <span class="n">data_misfit</span><span class="o">.</span><span class="n">L2DataMisfit</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">dc_data</span><span class="p">,</span> <span class="n">simulation</span><span class="o">=</span><span class="n">simulation</span><span class="p">)</span>
 
@@ -1008,9 +752,15 @@ if (outputEl) {{
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>Here, we define the directives for the inversion.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">starting_beta</span> <span class="o">=</span> <span class="n">directives</span><span class="o">.</span><span class="n">BetaEstimate_ByEig</span><span class="p">(</span><span class="n">beta0_ratio</span><span class="o">=</span><span class="mf">20.</span><span class="p">)</span>
 <span class="n">beta_schedule</span> <span class="o">=</span> <span class="n">directives</span><span class="o">.</span><span class="n">BetaSchedule</span><span class="p">(</span><span class="n">coolingFactor</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">coolingRate</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -1030,9 +780,15 @@ if (outputEl) {{
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>Finally, we define and run the inversion. Using our mapping, we convert the recovered model to the conductivity values defined on the mesh.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inv</span> <span class="o">=</span> <span class="n">inversion</span><span class="o">.</span><span class="n">BaseInversion</span><span class="p">(</span><span class="n">inv_prob</span><span class="p">,</span> <span class="n">directives_list</span><span class="p">)</span>
 <span class="n">simpeg_model</span> <span class="o">=</span> <span class="n">inv</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">m0</span><span class="p">)</span>
@@ -1042,6 +798,7 @@ if (outputEl) {{
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimPEG.InvProblem will set Regularization.mref to m0.
 
@@ -1072,6 +829,11 @@ x0 has any nan: 0
 </div>
 <p>If desired, we can output the recovered model and the predicted data.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">write_output</span><span class="p">:</span>
     <span class="n">TreeMesh</span><span class="o">.</span><span class="n">writeModelUBC</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">rootdir</span><span class="o">+</span><span class="s1">&#39;recovered_model.con&#39;</span><span class="p">,</span> <span class="n">simpeg_model</span><span class="p">)</span>
@@ -1080,12 +842,18 @@ x0 has any nan: 0
 </pre></div>
 </div>
 </div>
+</details>
 </div>
-</div>
-<div class="section" id="data-misfit-along-a-single-survey-line">
-<h2>Data Misfit Along a Single Survey Line<a class="headerlink" href="#data-misfit-along-a-single-survey-line" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="data-misfit-along-a-single-survey-line">
+<h2>Data Misfit Along a Single Survey Line<a class="headerlink" href="#data-misfit-along-a-single-survey-line" title="Permalink to this heading">#</a></h2>
 <p>Here, we examine the data misfit by plotting a 2D pseudo-section for each survey line. We begin by parsing the 3D survey into a list of 2D surveys.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">line_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">survey</span><span class="o">.</span><span class="n">nD</span><span class="p">)</span>
 <span class="n">northing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">survey</span><span class="o">.</span><span class="n">locations_a</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
@@ -1097,9 +865,15 @@ x0 has any nan: 0
 </pre></div>
 </div>
 </div>
+</details>
 </div>
 <p>Next, we define the line ID (0-8) for the pole-dipole line we would like to examine. Then plot the observed data, predicted data and normalized misfit in 2D pseudosection.</p>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IND</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">title_str</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Observed Data&#39;</span><span class="p">,</span> <span class="s1">&#39;Predicted Data&#39;</span><span class="p">,</span> <span class="s1">&#39;Normalized Misfit&#39;</span><span class="p">]</span>
@@ -1131,21 +905,27 @@ x0 has any nan: 0
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>D:\Documents\Repositories\simpeg\SimPEG\electromagnetics\static\utils\static_utils.py:578: UserWarning:
 
 plot_pseudosection unused kwargs: {list(kwargs.keys())}
 </pre></div>
 </div>
-<img alt="../../../_images/reproduce_simpeg_27_1.png" src="../../../_images/reproduce_simpeg_27_1.png" />
-<img alt="../../../_images/reproduce_simpeg_27_2.png" src="../../../_images/reproduce_simpeg_27_2.png" />
-<img alt="../../../_images/reproduce_simpeg_27_3.png" src="../../../_images/reproduce_simpeg_27_3.png" />
+<img alt="../../../_images/bf81c78f4c677f3c0f042e9a726eb49e2d961c84fd844f470a487a4f4615ddf2.png" src="../../../_images/bf81c78f4c677f3c0f042e9a726eb49e2d961c84fd844f470a487a4f4615ddf2.png" />
+<img alt="../../../_images/da2476f5a949d3e0508d7ce8ac0b0b70a1e07fb23be00f7a6431347c19ef4224.png" src="../../../_images/da2476f5a949d3e0508d7ce8ac0b0b70a1e07fb23be00f7a6431347c19ef4224.png" />
+<img alt="../../../_images/8b40a4d510e8e0861b95049a444a0be9f38ea2f8ce0fda75dfd10d672c3f9e4f.png" src="../../../_images/8b40a4d510e8e0861b95049a444a0be9f38ea2f8ce0fda75dfd10d672c3f9e4f.png" />
 </div>
 </div>
-</div>
-<div class="section" id="comparing-true-and-recovered-models">
-<h2>Comparing True and Recovered Models<a class="headerlink" href="#comparing-true-and-recovered-models" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="comparing-true-and-recovered-models">
+<h2>Comparing True and Recovered Models<a class="headerlink" href="#comparing-true-and-recovered-models" title="Permalink to this heading">#</a></h2>
 <div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">font_size</span> <span class="o">=</span> <span class="mi">14</span>
@@ -1187,12 +967,13 @@ plot_pseudosection unused kwargs: {list(kwargs.keys())}
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<img alt="../../../_images/reproduce_simpeg_29_0.png" src="../../../_images/reproduce_simpeg_29_0.png" />
+<img alt="../../../_images/fc82219590cb923c6a9951d2a6f913bb83b411b1a0f11cf3bc33ea0fdb22c215.png" src="../../../_images/fc82219590cb923c6a9951d2a6f913bb83b411b1a0f11cf3bc33ea0fdb22c215.png" />
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1206,7 +987,7 @@ plot_pseudosection unused kwargs: {list(kwargs.keys())}
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./notebooks\dcip\block_model_dc_inv_L2"
         },
         predefinedOutput: true
@@ -1214,56 +995,109 @@ plot_pseudosection unused kwargs: {list(kwargs.keys())}
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-        
-            
 
-
-
-<div class='prev-next-bottom'>
-    
-    <div id="prev">
-        <a class="left-prev" href="code_comparison.html" title="previous page">
-            <i class="prevnext-label fas fa-angle-left"></i>
-            <div class="prevnext-info">
-                <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">DC Inversion: Blocks Model (L2)</p>
-            </div>
-        </a>
-    </div>
-     <div id="next">
-        <a class="right-next" href="reproduce_ubc_dcipoctree.html" title="next page">
-            <div class="prevnext-info">
-                <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Reproduce: UBC DCIP OcTree</p>
-            </div>
-            <i class="prevnext-label fas fa-angle-right"></i>
-        </a>
-     </div>
-
-</div>
-        
-        </div>
-    </div>
-    <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By SimPEG<br/>
-        
-            &copy; Copyright 2021.<br/>
-      </p>
-    </div>
-  </footer>
-</main>
-
-
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="code_comparison.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">DC Inversion: Blocks Model (L2)</p>
       </div>
-    </div>
+    </a>
+    <a class="right-next"
+       href="reproduce_ubc_dcipoctree.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reproduce: UBC DCIP OcTree</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+</div>
 
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverting-pole-dipole-dc-resistivity-data-over-a-conductive-and-a-resistive-block">Inverting Pole-Dipole DC Resistivity Data over a Conductive and a Resistive Block</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpeg-package-details">SimPEG Package Details</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-inversion">Running the Inversion</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-misfit-along-a-single-survey-line">Data Misfit Along a Single Survey Line</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-true-and-recovered-models">Comparing True and Recovered Models</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
+  <div class="footer-item">
+    
+<p class="component-author">
+By SimPEG
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2021.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
