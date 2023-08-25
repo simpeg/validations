@@ -4,7 +4,7 @@ SimPEG Code Validations Book
 The *SimPEG Code Validations Book* is a space for publishing notebooks used to validate the SimPEG coding package. The goal of this project is to assess the accuracy and benchmark the performance of SimPEG against analytic solutions and other coding packages.
 
 
-```{figure} ./assets/section_images/title_image.PNG
+```{figure} ./assets/section_images/title_image.png
 :width: 600px
 :align: center
 ```
