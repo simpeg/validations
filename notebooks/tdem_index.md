@@ -4,7 +4,7 @@ Time-Domain Electromagnetics
 In this chapter, we publish code comparisons and validations for time-domain electromagnetic modeling packages.
 In SimPEG, the *SimPEG.electromagnetics.time_domain* module is used for modeling time-domain data.
 
-```{figure} ../assets/section_images/tem_physics.PNG
+```{figure} ../assets/section_images/tem_physics.png
 :width: 800px
 :align: center
 

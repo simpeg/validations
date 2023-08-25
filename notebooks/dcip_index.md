@@ -4,7 +4,7 @@ DC / IP
 In this chapter, we publish code comparisons and validations for direct current resistivity (DC) and induced polarization (IP) modeling packages.
 In SimPEG the *SimPEG.electromagnetics.static.resistivity* module is used for modeling DC resistivity data, while the *SimPEG.electromagnetics.static.induced_polarization* module is used for modeling IP data.
 
-```{figure} ../assets/section_images/dcip_physics.PNG
+```{figure} ../assets/section_images/dcip_physics.png
 :width: 800px
 :align: center
 
