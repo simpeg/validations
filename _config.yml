@@ -78,10 +78,8 @@ launch_buttons:
 sphinx:
   config:
     html_js_files:
-      [
-        [ "https://plausible.io/js/script.js", { "defer": "defer", "data-domain": "simpeg.xyz" }, ],
-        "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js",
-      ]
+      - [ "https://plausible.io/js/script.js", { "defer": "defer", "data-domain": "simpeg.xyz" }, ]
+      - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
 #   extra_extensions          :   # A list of extra extensions to load by Sphinx (added to those already used by JB).
 #   local_extensions          :   # A list of local extensions to load by sphinx specified by "name: path" items
 #   config                    :   # key-value pairs to directly over-ride the Sphinx configuration
