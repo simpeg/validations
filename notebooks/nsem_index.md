@@ -5,7 +5,7 @@ In this chapter, we publish code comparisons and validations for natural source 
 This includes magnetotellurics (MT) and Z-axis Tipper electromagnetics (ZTEM).
 In SimPEG, the *SimPEG.electromagnetics.natural_source* module is used for modeling natural source electromagnetic data.
 
-```{figure} ../assets/section_images/nsem_physics.PNG
+```{figure} ../assets/section_images/nsem_physics.png
 :width: 800px
 :align: center
 
